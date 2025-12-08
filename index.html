@@ -1726,6 +1726,77 @@
             animation: fadeInUp 0.8s ease;
         }
 
+        /* New Feature Sections */
+        .feature-category {
+            margin: 3rem 0;
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            text-align: center;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+
+        .category-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+        }
+
+        .feature-item {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.7));
+            padding: 1.2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(124, 58, 237, 0.1);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.2);
+        }
+
+        .feature-item i {
+            color: var(--primary);
+            font-size: 1.2rem;
+            min-width: 24px;
+        }
+
+        .feature-item span {
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .feature-item.premium {
+            border: 1px solid var(--gold);
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(251, 191, 36, 0.05));
+        }
+
+        .feature-item.premium i {
+            color: var(--gold);
+        }
+
         /* Tablet Styles */
         @media (min-width: 768px) {
             .navbar {
@@ -1830,6 +1901,10 @@
                 flex-direction: row;
                 justify-content: space-between;
             }
+            
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         /* Desktop Styles */
@@ -1882,6 +1957,10 @@
             .nav-links a {
                 font-size: 1rem;
             }
+            
+            .feature-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
         /* Large Desktop Styles */
@@ -1892,6 +1971,10 @@
             
             .hero h1 {
                 font-size: 4rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: repeat(4, 1fr);
             }
         }
     </style>
@@ -1919,8 +2002,10 @@
         <div class="nav-links">
             <a href="#home" class="active"><i class="fas fa-home"></i> Home</a>
             <a href="#chat"><i class="fas fa-comments"></i> AI Chat</a>
-            <a href="#image"><i class="fas fa-image"></i> Image Gen</a>
-            <a href="#features"><i class="fas fa-star"></i> Features</a>
+            <a href="#video"><i class="fas fa-video"></i> Video</a>
+            <a href="#image-design"><i class="fas fa-paint-brush"></i> Image & Design</a>
+            <a href="#content"><i class="fas fa-pen"></i> Content</a>
+            <a href="#features"><i class="fas fa-star"></i> AI Features</a>
             <a href="#plans"><i class="fas fa-gem"></i> Plans</a>
             <a href="#dashboard"><i class="fas fa-chart-line"></i> Dashboard</a>
             <a href="#creator"><i class="fas fa-user-tie"></i> Creator</a>
@@ -1988,8 +2073,10 @@
         <div class="mobile-menu-links">
             <a href="#home" class="active"><i class="fas fa-home"></i> Home</a>
             <a href="#chat"><i class="fas fa-comments"></i> AI Chat</a>
-            <a href="#image"><i class="fas fa-image"></i> Image Generation</a>
-            <a href="#features"><i class="fas fa-star"></i> Features</a>
+            <a href="#video"><i class="fas fa-video"></i> Video Generation</a>
+            <a href="#image-design"><i class="fas fa-paint-brush"></i> Image & Design</a>
+            <a href="#content"><i class="fas fa-pen"></i> Content & Writing</a>
+            <a href="#features"><i class="fas fa-star"></i> AI Features</a>
             <a href="#plans"><i class="fas fa-gem"></i> Plans</a>
             <a href="#dashboard"><i class="fas fa-chart-line"></i> Dashboard</a>
             <a href="#creator"><i class="fas fa-user-tie"></i> Creator</a>
@@ -2088,9 +2175,382 @@
             </div>
         </section>
 
-        <!-- Features Section -->
+        <!-- Video Generation Section -->
+        <section class="section" id="video">
+            <h2 class="section-title">AI Video Generation</h2>
+            
+            <div class="feature-category">
+                <h3 class="category-title">Video Creation Tools</h3>
+                <div class="feature-grid">
+                    <div class="feature-item premium">
+                        <i class="fas fa-film"></i>
+                        <span>Text → Video Generator</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-scroll"></i>
+                        <span>Script → Video Maker</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-images"></i>
+                        <span>Image → Animated Video</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Talking Avatar Video</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>Face Swap in Video</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-closed-captioning"></i>
+                        <span>Auto Subtitle Generator</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-text-height"></i>
+                        <span>Caption Burn-In (Subtitles inside video)</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-microphone"></i>
+                        <span>AI Voiceover (multi tone)</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-music"></i>
+                        <span>Background Music Auto-Match</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-layer-group"></i>
+                        <span>Ready Templates → Reels/Shorts</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>Auto Transitions (slide, fade, zoom)</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-video"></i>
+                        <span>AI B-Roll Suggestion</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-clock"></i>
+                        <span>Scene Timing Auto Adjustment</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Video Speed Control (Slow/Fast)</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Auto Intro/Outro Generator</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="image-gen-container">
+                <div class="image-form">
+                    <div class="form-group full-width">
+                        <label for="videoPrompt"><i class="fas fa-edit"></i> Video Script/Prompt</label>
+                        <textarea class="form-control" id="videoPrompt" rows="4" placeholder="Example: Create a 30-second promotional video for a new tech product with upbeat music, showing features and benefits..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="videoType"><i class="fas fa-video"></i> Video Type</label>
+                        <select class="form-control" id="videoType">
+                            <option value="promo">Promotional Video</option>
+                            <option value="tutorial">Tutorial</option>
+                            <option value="social">Social Media Reel</option>
+                            <option value="explainer">Explainer Video</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="videoDuration"><i class="fas fa-clock"></i> Duration</label>
+                        <select class="form-control" id="videoDuration">
+                            <option value="15">15 seconds</option>
+                            <option value="30">30 seconds</option>
+                            <option value="60">1 minute</option>
+                            <option value="120">2 minutes</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="videoAspect"><i class="fas fa-expand"></i> Aspect Ratio</label>
+                        <select class="form-control" id="videoAspect">
+                            <option value="9:16">9:16 (Vertical - Reels/TikTok)</option>
+                            <option value="16:9">16:9 (Horizontal - YouTube)</option>
+                            <option value="1:1">1:1 (Square - Instagram)</option>
+                            <option value="4:5">4:5 (Portrait - Facebook)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" id="generateVideoBtn" style="width: 100%; padding: 1.2rem; font-size: 1.1rem;">
+                    <i class="fas fa-video"></i> Generate Video (Premium)
+                </button>
+            </div>
+        </section>
+
+        <!-- Image & Design Section -->
+        <section class="section" id="image-design">
+            <h2 class="section-title">AI Image & Design</h2>
+            
+            <div class="feature-category">
+                <h3 class="category-title">Design & Editing Tools</h3>
+                <div class="feature-grid">
+                    <div class="feature-item premium">
+                        <i class="fas fa-copyright"></i>
+                        <span>Logo Generator</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fab fa-youtube"></i>
+                        <span>YouTube Thumbnail Generator</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-flag"></i>
+                        <span>Poster/Banner Maker</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-share-alt"></i>
+                        <span>Social Media Post Generator</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-magic"></i>
+                        <span>AI Photo Enhancer (HD + Face)</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-eraser"></i>
+                        <span>Background Remove</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span>Product Photo Generator</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-paint-brush"></i>
+                        <span>Cartoon/Anime Conversion</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-palette"></i>
+                        <span>Text → Image Art Creator</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-palette"></i>
+                        <span>Brand Kit Generator (colors + fonts)</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-th-large"></i>
+                        <span>Collage Maker</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Infographic Generator</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-grin-tears"></i>
+                        <span>Meme Generator</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-th"></i>
+                        <span>Pattern/Texture Generator</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-layer-group"></i>
+                        <span>Dynamic Image Templates</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Existing Image Generation -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="generate">Generate</button>
+                <button class="tab-btn" data-tab="inpaint">Edit</button>
+                <button class="tab-btn" data-tab="styles">Styles</button>
+                <button class="tab-btn" data-tab="history">History</button>
+            </div>
+
+            <div class="tab-content active" id="generateTab">
+                <div class="image-gen-container">
+                    <div class="image-form">
+                        <div class="form-group full-width">
+                            <label for="prompt"><i class="fas fa-edit"></i> Prompt (Detailed Description)</label>
+                            <textarea class="form-control" id="prompt" rows="4" placeholder="Example: A beautiful sunset scene by the ocean, digital art style, 4K resolution, cinematic lighting..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="model"><i class="fas fa-cogs"></i> AI Model</label>
+                            <select class="form-control" id="model">
+                                <option value="sdxl">Stable Diffusion XL</option>
+                                <option value="dalle3">DALL-E 3</option>
+                                <option value="midjourney">Midjourney Style</option>
+                                <option value="custom">Custom Model</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="style"><i class="fas fa-palette"></i> Art Style</label>
+                            <select class="form-control" id="style">
+                                <option value="realistic">Realistic</option>
+                                <option value="anime">Anime</option>
+                                <option value="digital">Digital Art</option>
+                                <option value="oil">Oil Painting</option>
+                                <option value="watercolor">Watercolor</option>
+                                <option value="cyberpunk">Cyberpunk</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="size"><i class="fas fa-expand"></i> Resolution</label>
+                            <select class="form-control" id="size">
+                                <option value="512x512">512×512 (Basic)</option>
+                                <option value="768x768">768×768 (Standard)</option>
+                                <option value="1024x1024">1024×1024 (HD)</option>
+                                <option value="2048x2048" disabled>2048×2048 (4K) - PREMIUM</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="negativePrompt"><i class="fas fa-ban"></i> Negative Prompt</label>
+                            <textarea class="form-control" id="negativePrompt" rows="2" placeholder="Example: distorted, blurry, text, watermark..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="guidance"><i class="fas fa-sliders-h"></i> Guidance Scale: <span id="guidanceValue">7.5</span></label>
+                            <input type="range" class="form-control" id="guidance" min="1" max="20" step="0.5" value="7.5">
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary" id="generateBtn" style="width: 100%; padding: 1.2rem; font-size: 1.1rem;">
+                        <i class="fas fa-magic"></i> Generate Image (Premium)
+                    </button>
+                    
+                    <div class="image-preview" id="imagePreview">
+                        <div style="text-align: center; color: #94a3b8; padding: 3rem;">
+                            <i class="fas fa-image" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                            <h3 style="margin-bottom: 0.8rem; color: #e2e8f0; font-size: 1.2rem;">Generated image will appear here</h3>
+                            <p style="font-size: 0.9rem;">Premium users can generate images in 4K resolution</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content & Writing Section -->
+        <section class="section" id="content">
+            <h2 class="section-title">AI Content & Writing</h2>
+            
+            <div class="feature-category">
+                <h3 class="category-title">Writing & Content Tools</h3>
+                <div class="feature-grid">
+                    <div class="feature-item premium">
+                        <i class="fas fa-scroll"></i>
+                        <span>AI Script Writer (YT, reels, ads)</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-comment-alt"></i>
+                        <span>AI Caption Writer</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-hashtag"></i>
+                        <span>AI Hashtag Generator</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>30-Day Content Planner</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-book-open"></i>
+                        <span>Story Generator (FB, Insta, TikTok)</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-ad"></i>
+                        <span>AI Ad Copy Writer</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-box"></i>
+                        <span>Product Description Generator</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-blog"></i>
+                        <span>Blog → Short Video Converter</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-newspaper"></i>
+                        <span>Article → Reel Script</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-compress"></i>
+                        <span>Long content → Short summary</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-search"></i>
+                        <span>SEO Keyword Generator</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-heading"></i>
+                        <span>Headline / Title Generator</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-bullhorn"></i>
+                        <span>Call-to-Action Text Generator</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-film"></i>
+                        <span>Storyboard Outline Generator</span>
+                    </div>
+                    <div class="feature-item premium">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>Auto Content Idea Suggestion</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="image-gen-container">
+                <div class="image-form">
+                    <div class="form-group full-width">
+                        <label for="contentTopic"><i class="fas fa-edit"></i> Content Topic</label>
+                        <textarea class="form-control" id="contentTopic" rows="3" placeholder="Example: Write a blog post about AI technology advancements in 2024..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contentType"><i class="fas fa-file-alt"></i> Content Type</label>
+                        <select class="form-control" id="contentType">
+                            <option value="blog">Blog Post</option>
+                            <option value="social">Social Media Post</option>
+                            <option value="script">Video Script</option>
+                            <option value="ad">Advertisement Copy</option>
+                            <option value="email">Email Newsletter</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contentTone"><i class="fas fa-comment"></i> Tone</label>
+                        <select class="form-control" id="contentTone">
+                            <option value="professional">Professional</option>
+                            <option value="casual">Casual</option>
+                            <option value="persuasive">Persuasive</option>
+                            <option value="friendly">Friendly</option>
+                            <option value="humorous">Humorous</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contentLength"><i class="fas fa-ruler"></i> Length</label>
+                        <select class="form-control" id="contentLength">
+                            <option value="short">Short (100-200 words)</option>
+                            <option value="medium">Medium (300-500 words)</option>
+                            <option value="long">Long (700-1000 words)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" id="generateContentBtn" style="width: 100%; padding: 1.2rem; font-size: 1.1rem;">
+                    <i class="fas fa-pen"></i> Generate Content (Premium)
+                </button>
+            </div>
+        </section>
+
+        <!-- AI Features Section -->
         <section class="section" id="features">
-            <h2 class="section-title">Premium Features</h2>
+            <h2 class="section-title">Premium AI Features</h2>
             <div class="features">
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -2178,83 +2638,6 @@
             </div>
         </section>
 
-        <!-- Image Generation Section -->
-        <section class="section" id="image">
-            <h2 class="section-title">AI Image Generation</h2>
-            
-            <div class="tabs">
-                <button class="tab-btn active" data-tab="generate">Generate</button>
-                <button class="tab-btn" data-tab="inpaint">Edit</button>
-                <button class="tab-btn" data-tab="styles">Styles</button>
-                <button class="tab-btn" data-tab="history">History</button>
-            </div>
-
-            <div class="tab-content active" id="generateTab">
-                <div class="image-gen-container">
-                    <div class="image-form">
-                        <div class="form-group full-width">
-                            <label for="prompt"><i class="fas fa-edit"></i> Prompt (Detailed Description)</label>
-                            <textarea class="form-control" id="prompt" rows="4" placeholder="Example: A beautiful sunset scene by the ocean, digital art style, 4K resolution, cinematic lighting..."></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="model"><i class="fas fa-cogs"></i> AI Model</label>
-                            <select class="form-control" id="model">
-                                <option value="sdxl">Stable Diffusion XL</option>
-                                <option value="dalle3">DALL-E 3</option>
-                                <option value="midjourney">Midjourney Style</option>
-                                <option value="custom">Custom Model</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="style"><i class="fas fa-palette"></i> Art Style</label>
-                            <select class="form-control" id="style">
-                                <option value="realistic">Realistic</option>
-                                <option value="anime">Anime</option>
-                                <option value="digital">Digital Art</option>
-                                <option value="oil">Oil Painting</option>
-                                <option value="watercolor">Watercolor</option>
-                                <option value="cyberpunk">Cyberpunk</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="size"><i class="fas fa-expand"></i> Resolution</label>
-                            <select class="form-control" id="size">
-                                <option value="512x512">512×512 (Basic)</option>
-                                <option value="768x768">768×768 (Standard)</option>
-                                <option value="1024x1024">1024×1024 (HD)</option>
-                                <option value="2048x2048" disabled>2048×2048 (4K) - PREMIUM</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="negativePrompt"><i class="fas fa-ban"></i> Negative Prompt</label>
-                            <textarea class="form-control" id="negativePrompt" rows="2" placeholder="Example: distorted, blurry, text, watermark..."></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="guidance"><i class="fas fa-sliders-h"></i> Guidance Scale: <span id="guidanceValue">7.5</span></label>
-                            <input type="range" class="form-control" id="guidance" min="1" max="20" step="0.5" value="7.5">
-                        </div>
-                    </div>
-                    
-                    <button class="btn btn-primary" id="generateBtn" style="width: 100%; padding: 1.2rem; font-size: 1.1rem;">
-                        <i class="fas fa-magic"></i> Generate Image (Premium)
-                    </button>
-                    
-                    <div class="image-preview" id="imagePreview">
-                        <div style="text-align: center; color: #94a3b8; padding: 3rem;">
-                            <i class="fas fa-image" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-                            <h3 style="margin-bottom: 0.8rem; color: #e2e8f0; font-size: 1.2rem;">Generated image will appear here</h3>
-                            <p style="font-size: 0.9rem;">Premium users can generate images in 4K resolution</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- Plans Section -->
         <section class="section" id="plans">
             <h2 class="section-title">Premium Subscription Plans</h2>
@@ -2286,15 +2669,15 @@
                         </div>
                         <div class="plan-feature disabled">
                             <i class="fas fa-times"></i>
+                            <span>Video Generation</span>
+                        </div>
+                        <div class="plan-feature disabled">
+                            <i class="fas fa-times"></i>
                             <span>Image Generation</span>
                         </div>
                         <div class="plan-feature disabled">
                             <i class="fas fa-times"></i>
-                            <span>Voice Generation</span>
-                        </div>
-                        <div class="plan-feature disabled">
-                            <i class="fas fa-times"></i>
-                            <span>PDF Parsing</span>
+                            <span>Content Writing</span>
                         </div>
                     </div>
                     
@@ -2328,19 +2711,19 @@
                         </div>
                         <div class="plan-feature">
                             <i class="fas fa-check"></i>
+                            <span>Basic Video Generation</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
                             <span>HD Image Generation (2K)</span>
                         </div>
                         <div class="plan-feature">
                             <i class="fas fa-check"></i>
+                            <span>Basic Content Writing</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
                             <span>50+ Language Support</span>
-                        </div>
-                        <div class="plan-feature">
-                            <i class="fas fa-check"></i>
-                            <span>Voice Input/Output</span>
-                        </div>
-                        <div class="plan-feature">
-                            <i class="fas fa-check"></i>
-                            <span>PDF/DOCX Parsing</span>
                         </div>
                         <div class="plan-feature">
                             <i class="fas fa-check"></i>
@@ -2376,7 +2759,15 @@
                         </div>
                         <div class="plan-feature">
                             <i class="fas fa-check"></i>
+                            <span>Advanced Video Generation</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
                             <span>4K Image Generation</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Advanced Content Writing</span>
                         </div>
                         <div class="plan-feature">
                             <i class="fas fa-check"></i>
@@ -2384,15 +2775,7 @@
                         </div>
                         <div class="plan-feature">
                             <i class="fas fa-check"></i>
-                            <span>API Access</span>
-                        </div>
-                        <div class="plan-feature">
-                            <i class="fas fa-check"></i>
                             <span>Priority Support</span>
-                        </div>
-                        <div class="plan-feature">
-                            <i class="fas fa-check"></i>
-                            <span>Custom AI Agents</span>
                         </div>
                         <div class="plan-feature">
                             <i class="fas fa-check"></i>
@@ -2424,23 +2807,23 @@
                         </div>
                         <div class="plan-feature">
                             <i class="fas fa-check"></i>
+                            <span>Unlimited Video Generation</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
                             <span>8K Image Generation</span>
                         </div>
                         <div class="plan-feature">
                             <i class="fas fa-check"></i>
-                            <span>Multi-User Access</span>
+                            <span>Unlimited Content Writing</span>
                         </div>
                         <div class="plan-feature">
                             <i class="fas fa-check"></i>
-                            <span>Dedicated Server</span>
+                            <span>API Access</span>
                         </div>
                         <div class="plan-feature">
                             <i class="fas fa-check"></i>
-                            <span>White-label Solution</span>
-                        </div>
-                        <div class="plan-feature">
-                            <i class="fas fa-check"></i>
-                            <span>Custom Model Training</span>
+                            <span>Custom AI Models</span>
                         </div>
                         <div class="plan-feature">
                             <i class="fas fa-check"></i>
@@ -2485,7 +2868,19 @@
                     
                     <div class="dashboard-card">
                         <div class="card-header">
-                            <h3><i class="fas fa-image"></i> Image Generation</h3>
+                            <h3><i class="fas fa-video"></i> Video Credits</h3>
+                            <span class="badge badge-premium">Locked</span>
+                        </div>
+                        <div class="card-value" id="videoCredits">0/10</div>
+                        <div class="card-label">Premium Required</div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-image"></i> Image Credits</h3>
                             <span class="badge badge-premium">Locked</span>
                         </div>
                         <div class="card-value" id="imageCredits">0/10</div>
@@ -2497,25 +2892,13 @@
                     
                     <div class="dashboard-card">
                         <div class="card-header">
-                            <h3><i class="fas fa-language"></i> Languages Used</h3>
-                            <span class="badge">Free</span>
+                            <h3><i class="fas fa-pen"></i> Content Credits</h3>
+                            <span class="badge badge-premium">Locked</span>
                         </div>
-                        <div class="card-value" id="languagesUsed">2/2</div>
-                        <div class="card-label">English & Spanish</div>
+                        <div class="card-value" id="contentCredits">0/10</div>
+                        <div class="card-label">Premium Required</div>
                         <div class="progress-bar">
-                            <div class="progress" style="width: 100%;"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="dashboard-card">
-                        <div class="card-header">
-                            <h3><i class="fas fa-history"></i> Chat History</h3>
-                            <span class="badge">30 Days</span>
-                        </div>
-                        <div class="card-value" id="chatHistory">47</div>
-                        <div class="card-label">Total Conversations</div>
-                        <div class="progress-bar">
-                            <div class="progress" style="width: 47%;"></div>
+                            <div class="progress" style="width: 0%;"></div>
                         </div>
                     </div>
                 </div>
@@ -2526,7 +2909,7 @@
                         Upgrade to Premium
                     </button>
                     <p style="color: #94a3b8; margin-top: 1rem; font-size: 0.9rem;">
-                        Upgrade to Premium to get: Unlimited questions, HD Image Generation, 50+ languages, and much more!
+                        Upgrade to Premium to get: Unlimited questions, Video Generation, Image Generation, Content Writing, and much more!
                     </p>
                 </div>
             </div>
@@ -2601,10 +2984,10 @@
                 <h3>Quick Links</h3>
                 <ul class="footer-links">
                     <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
-                    <li><a href="#features"><i class="fas fa-chevron-right"></i> Features</a></li>
+                    <li><a href="#video"><i class="fas fa-chevron-right"></i> Video Generation</a></li>
+                    <li><a href="#image-design"><i class="fas fa-chevron-right"></i> Image & Design</a></li>
+                    <li><a href="#content"><i class="fas fa-chevron-right"></i> Content & Writing</a></li>
                     <li><a href="#plans"><i class="fas fa-chevron-right"></i> Pricing</a></li>
-                    <li><a href="#dashboard"><i class="fas fa-chevron-right"></i> Dashboard</a></li>
-                    <li><a href="#creator"><i class="fas fa-chevron-right"></i> Creator</a></li>
                 </ul>
             </div>
             
@@ -2848,6 +3231,8 @@
         const copyBtn = document.getElementById('copyBtn');
         const clearBtn = document.getElementById('clearBtn');
         const generateBtn = document.getElementById('generateBtn');
+        const generateVideoBtn = document.getElementById('generateVideoBtn');
+        const generateContentBtn = document.getElementById('generateContentBtn');
         const imagePreview = document.getElementById('imagePreview');
         const notification = document.getElementById('notification');
         const userAvatar = document.getElementById('userAvatar');
@@ -3034,6 +3419,12 @@
             
             // Image Generation Button
             generateBtn.addEventListener('click', generateImage);
+            
+            // Video Generation Button
+            generateVideoBtn.addEventListener('click', generateVideo);
+            
+            // Content Generation Button
+            generateContentBtn.addEventListener('click', generateContent);
             
             // User Menu
             userAvatar.addEventListener('click', function(e) {
@@ -3590,15 +3981,17 @@
             const responses = {
                 'hello': 'Hello! I\'m Zynqora AI. How can I help you today?',
                 'hi': 'Hi! I\'m Zynqora AI. Do you have any questions for me?',
-                'help': 'I can help you with: 1. Answering any questions 2. Generating images 3. Creating notes 4. Managing tasks.',
-                'image': 'To generate images, go to the "Image Generation" section and type a prompt.',
+                'help': 'I can help you with: 1. Answering any questions 2. Generating images 3. Creating videos 4. Writing content 5. Managing tasks.',
+                'video': 'To generate videos, go to the "Video Generation" section and type a script.',
+                'image': 'To generate images, go to the "Image & Design" section and type a prompt.',
+                'content': 'To generate content, go to the "Content & Writing" section and type a topic.',
                 'premium': 'Check our "Plans" section for premium features.',
                 'language': 'I support 180+ languages including English, Hindi, Spanish, Arabic, French, and many more!',
-                'features': 'I have many features: AI Chat, Image Generation, Voice Support, Document Analysis, and more!'
+                'features': 'I have many features: AI Chat, Video Generation, Image Generation, Content Writing, and more!'
             };
             
             let answer = responses[question.toLowerCase()] || 
-                `Your question: "${question}"\n\nThis is a demo response. In the real server, AI will provide proper answers. You can ask more detailed questions or try "Image Generation".`;
+                `Your question: "${question}"\n\nThis is a demo response. In the real server, AI will provide proper answers. You can ask more detailed questions or try our Video/Image/Content generation features.`;
             
             currentAnswer = answer;
             addMessage(answer, 'ai');
@@ -3689,6 +4082,105 @@
             } finally {
                 generateBtn.disabled = false;
                 generateBtn.innerHTML = '<i class="fas fa-magic"></i> Generate Image (Premium)';
+            }
+        }
+        
+        async function generateVideo() {
+            if (!currentUser) {
+                showNotification('Please login to generate videos', 'warning');
+                openModal('authModal');
+                return;
+            }
+            
+            if (userTier === 'free') {
+                showNotification('Video generation is for Premium users only', 'warning');
+                scrollToSection('plans');
+                return;
+            }
+            
+            const prompt = document.getElementById('videoPrompt').value.trim();
+            if (!prompt) {
+                showNotification('Please describe the video script', 'error');
+                return;
+            }
+            
+            const type = document.getElementById('videoType').value;
+            const duration = document.getElementById('videoDuration').value;
+            const aspect = document.getElementById('videoAspect').value;
+            
+            // Loading state
+            generateVideoBtn.disabled = true;
+            generateVideoBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating Video...';
+            
+            try {
+                // Simulate video generation delay
+                await new Promise(resolve => setTimeout(resolve, 3000));
+                
+                showNotification('Video generated successfully! Check your dashboard for download link.', 'success');
+                
+                // Add to chat
+                addMessage(`Generated a video for you: "${prompt}"`, 'ai');
+                
+            } catch (error) {
+                console.error('Error generating video:', error);
+                showNotification('Failed to generate video', 'error');
+            } finally {
+                generateVideoBtn.disabled = false;
+                generateVideoBtn.innerHTML = '<i class="fas fa-video"></i> Generate Video (Premium)';
+            }
+        }
+        
+        async function generateContent() {
+            if (!currentUser) {
+                showNotification('Please login to generate content', 'warning');
+                openModal('authModal');
+                return;
+            }
+            
+            if (userTier === 'free') {
+                showNotification('Content generation is for Premium users only', 'warning');
+                scrollToSection('plans');
+                return;
+            }
+            
+            const topic = document.getElementById('contentTopic').value.trim();
+            if (!topic) {
+                showNotification('Please enter a content topic', 'error');
+                return;
+            }
+            
+            const type = document.getElementById('contentType').value;
+            const tone = document.getElementById('contentTone').value;
+            const length = document.getElementById('contentLength').value;
+            
+            // Loading state
+            generateContentBtn.disabled = true;
+            generateContentBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating Content...';
+            
+            try {
+                // Simulate content generation delay
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Sample content based on type
+                const contentSamples = {
+                    'blog': `# ${topic}\n\nThis is a sample blog post about "${topic}". In the premium version, you would get a complete, well-researched article with proper formatting, headings, and SEO optimization.`,
+                    'social': `Check out our latest update about "${topic}"! 🚀 This is engaging social media content that would perform well on platforms like Instagram, Facebook, and Twitter.`,
+                    'script': `[Video Script: ${topic}]\n\nIntro: "Hey everyone, welcome back! Today we're talking about ${topic}..."\n\nMain Points:\n1. First key point\n2. Second important aspect\n3. Practical applications\n\nOutro: "Thanks for watching! Don't forget to like and subscribe."`,
+                    'ad': `🌟 Attention-Grabbing Headline About ${topic} 🌟\n\nEngaging ad copy that converts! Highlighting benefits and including a strong call-to-action to drive sales and engagement.`,
+                    'email': `Subject: Important Update About ${topic}\n\nDear Subscriber,\n\nWe're excited to share some news about ${topic}. This email newsletter would include valuable information and links to learn more.\n\nBest regards,\nThe Team`
+                };
+                
+                showNotification('Content generated successfully! Check below for preview.', 'success');
+                
+                // Show content in chat
+                addMessage(`Generated ${type} content about "${topic}":\n\n${contentSamples[type] || contentSamples.blog}`, 'ai');
+                
+            } catch (error) {
+                console.error('Error generating content:', error);
+                showNotification('Failed to generate content', 'error');
+            } finally {
+                generateContentBtn.disabled = false;
+                generateContentBtn.innerHTML = '<i class="fas fa-pen"></i> Generate Content (Premium)';
             }
         }
         
@@ -3794,11 +4286,22 @@
                 document.getElementById('todayQuestions').textContent = 'Unlimited';
                 document.querySelector('.progress').style.width = '100%';
                 
-                document.getElementById('imageCredits').textContent = tier === 'premium' ? '100/month' : 
-                                                                    tier === 'pro' ? '500/month' : 'Unlimited';
-                document.querySelectorAll('.progress-bar')[1].querySelector('.progress').style.width = '100%';
+                document.getElementById('videoCredits').textContent = tier === 'premium' ? '10/month' : 
+                                                                    tier === 'pro' ? '50/month' : 'Unlimited';
+                document.getElementById('imageCredits').textContent = tier === 'premium' ? '50/month' : 
+                                                                     tier === 'pro' ? '200/month' : 'Unlimited';
+                document.getElementById('contentCredits').textContent = tier === 'premium' ? '100/month' : 
+                                                                       tier === 'pro' ? '500/month' : 'Unlimited';
                 
-                document.getElementById('languagesUsed').textContent = tier === 'premium' ? '50+' : '180+';
+                document.querySelectorAll('.progress-bar')[1].querySelector('.progress').style.width = '100%';
+                document.querySelectorAll('.progress-bar')[2].querySelector('.progress').style.width = '100%';
+                document.querySelectorAll('.progress-bar')[3].querySelector('.progress').style.width = '100%';
+                
+                // Enable premium features
+                document.querySelectorAll('.feature-item.premium').forEach(item => {
+                    item.style.opacity = '1';
+                    item.style.pointerEvents = 'auto';
+                });
             }
             
             showNotification(`Upgraded to ${tier} tier!`, 'success');
@@ -3858,6 +4361,11 @@
             setTimeout(() => {
                 addMessage('You can ask "Who created you?" in any language to learn about my creator!', 'ai');
             }, 2000);
+            
+            // Add demo message about new features
+            setTimeout(() => {
+                addMessage('Now with 45+ new features including Video Generation, Image & Design tools, and Content Writing! Check out the new sections above.', 'ai');
+            }, 4000);
         });
     </script>
 </body>
