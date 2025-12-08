@@ -1,0 +1,3756 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zynqora AI - Premium AI Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #5b21b6;
+            --primary-light: #8b5cf6;
+            --secondary: #10b981;
+            --secondary-dark: #059669;
+            --accent: #f59e0b;
+            --accent-dark: #d97706;
+            --danger: #ef4444;
+            --danger-dark: #dc2626;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --gray-dark: #475569;
+            --gold: #fbbf24;
+            --diamond: #38bdf8;
+            --platinum: #a78bfa;
+        }
+
+        body {
+            background-color: var(--darker);
+            color: var(--light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--darker);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .preloader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 5px solid var(--primary);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+            font-size: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: white;
+            background: rgba(124, 58, 237, 0.1);
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+            background: rgba(124, 58, 237, 0.15);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.6);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(124, 58, 237, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), var(--secondary-dark));
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.6);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), #f59e0b);
+            color: #1f2937;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(251, 191, 36, 0.6);
+        }
+
+        .btn-diamond {
+            background: linear-gradient(135deg, var(--diamond), #0ea5e9);
+            color: white;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+        }
+
+        .btn-diamond:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.6);
+        }
+
+        .btn-platinum {
+            background: linear-gradient(135deg, var(--platinum), #8b5cf6);
+            color: white;
+            box-shadow: 0 4px 15px rgba(167, 139, 250, 0.4);
+        }
+
+        .btn-platinum:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(167, 139, 250, 0.6);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 6rem;
+            background: linear-gradient(135deg, 
+                rgba(2, 6, 23, 0.9) 0%,
+                rgba(30, 41, 59, 0.8) 100%),
+                url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(2, 6, 23, 0.9) 70%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, #7c3aed, #8b5cf6, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradient 3s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            color: #e2e8f0;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        /* Chat Container */
+        .chat-container {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            margin-bottom: 3rem;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 1.8rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .chat-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+        }
+
+        .chat-header h3 {
+            color: white;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .chat-status.online::before {
+            content: '';
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .chat-messages {
+            height: 500px;
+            overflow-y: auto;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            background: rgba(2, 6, 23, 0.3);
+        }
+
+        .message {
+            max-width: 75%;
+            padding: 1.2rem 1.5rem;
+            border-radius: 20px;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .message.ai {
+            align-self: flex-start;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(71, 85, 105, 0.8));
+            color: #e2e8f0;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .message.creator {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.9), rgba(91, 33, 182, 0.8));
+            border-left: 5px solid var(--gold);
+        }
+
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .message-content {
+            line-height: 1.6;
+        }
+
+        .message-content .creator-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 0.5rem;
+            border-left: 3px solid var(--gold);
+        }
+
+        .message-content .creator-info strong {
+            color: var(--gold);
+        }
+
+        .chat-input-container {
+            padding: 1.8rem 2rem;
+            border-top: 1px solid rgba(71, 85, 105, 0.5);
+            display: flex;
+            gap: 1.5rem;
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 1.2rem;
+            background: rgba(2, 6, 23, 0.7);
+            border: 2px solid rgba(124, 58, 237, 0.3);
+            border-radius: 15px;
+            color: white;
+            font-size: 1.1rem;
+            resize: none;
+            min-height: 70px;
+            transition: all 0.3s;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .action-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.3rem;
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.4);
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.6);
+        }
+
+        .action-btn.secondary {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+        }
+
+        .action-btn.warning {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+        }
+
+        .action-btn.danger {
+            background: linear-gradient(135deg, var(--danger), var(--danger-dark));
+        }
+
+        /* Premium Badge */
+        .premium-badge {
+            background: linear-gradient(135deg, var(--gold), #f59e0b);
+            color: #1f2937;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: 10px;
+            animation: glow 2s infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 10px rgba(251, 191, 36, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.8); }
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
+            padding: 2.5rem;
+            border-radius: 20px;
+            transition: all 0.4s;
+            border: 1px solid rgba(124, 58, 237, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .feature-card.premium {
+            border: 2px solid var(--gold);
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(251, 191, 36, 0.05));
+        }
+
+        .feature-card.premium::before {
+            background: linear-gradient(90deg, var(--gold), var(--accent));
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(124, 58, 237, 0.05));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            font-size: 2.5rem;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(124, 58, 237, 0.15));
+        }
+
+        .feature-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.2rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-card p {
+            color: #cbd5e1;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .tag {
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .tag.premium {
+            background: rgba(251, 191, 36, 0.1);
+            color: var(--gold);
+        }
+
+        /* Plans Section */
+        .plans-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .plan-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
+            border-radius: 25px;
+            padding: 3rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid rgba(71, 85, 105, 0.3);
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--primary);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .plan-card.popular {
+            border-color: var(--gold);
+            transform: scale(1.05);
+            box-shadow: 0 40px 80px rgba(251, 191, 36, 0.2);
+        }
+
+        .plan-card.popular:hover {
+            transform: scale(1.05) translateY(-15px);
+        }
+
+        .plan-card.popular::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: linear-gradient(135deg, var(--gold), var(--accent));
+            color: #1f2937;
+            padding: 0.5rem 2.5rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            transform: rotate(45deg);
+            text-align: center;
+            width: 150px;
+        }
+
+        .plan-card.enterprise {
+            border-color: var(--diamond);
+        }
+
+        .plan-card.enterprise::before {
+            content: 'ENTERPRISE';
+            background: linear-gradient(135deg, var(--diamond), var(--platinum));
+            color: white;
+        }
+
+        .plan-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+        }
+
+        .plan-name {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .plan-price {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: white;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-period {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        .plan-features {
+            flex: 1;
+            margin-bottom: 3rem;
+        }
+
+        .plan-feature {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            color: #e2e8f0;
+        }
+
+        .plan-feature i {
+            color: var(--success);
+            font-size: 1.2rem;
+            min-width: 24px;
+        }
+
+        .plan-feature.disabled {
+            color: #64748b;
+        }
+
+        .plan-feature.disabled i {
+            color: #64748b;
+        }
+
+        /* Image Generation */
+        .image-gen-container {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+            border-radius: 25px;
+            padding: 3rem;
+            margin-top: 2rem;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .image-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            margin-bottom: 1rem;
+            color: #e2e8f0;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-control {
+            padding: 1.2rem;
+            background: rgba(2, 6, 23, 0.7);
+            border: 2px solid rgba(71, 85, 105, 0.5);
+            border-radius: 15px;
+            color: white;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+        }
+
+        .image-preview {
+            width: 100%;
+            min-height: 400px;
+            background: rgba(2, 6, 23, 0.5);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px dashed rgba(124, 58, 237, 0.3);
+            margin-top: 2rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .image-stats {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Creator Section */
+        .creator-section {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(16, 185, 129, 0.1));
+            border-radius: 25px;
+            padding: 4rem;
+            margin-top: 4rem;
+            text-align: center;
+            border: 2px solid rgba(124, 58, 237, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .creator-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
+            animation: float 10s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .creator-card {
+            background: rgba(2, 6, 23, 0.8);
+            padding: 3rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .creator-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 3rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+            border: 5px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .creator-info h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .creator-title {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .creator-description {
+            color: #cbd5e1;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(2, 6, 23, 0.95));
+            border-radius: 25px;
+            padding: 3rem;
+            margin-top: 3rem;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .dashboard-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(124, 58, 237, 0.1);
+            transition: all 0.3s;
+        }
+
+        .dashboard-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-label {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(71, 85, 105, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(2, 6, 23, 0.95));
+            padding: 6rem 2rem 3rem;
+            margin-top: 6rem;
+            border-top: 1px solid rgba(71, 85, 105, 0.3);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 4rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: white;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(124, 58, 237, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(71, 85, 105, 0.3);
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 6, 23, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+            padding: 3rem;
+            border-radius: 25px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: var(--primary);
+        }
+
+        /* Login/Signup Modal */
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .auth-tab:hover {
+            color: white;
+        }
+
+        .auth-tab.active {
+            color: var(--primary);
+        }
+
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #e2e8f0;
+            font-weight: 500;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+        }
+
+        .input-with-icon input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            background: rgba(2, 6, 23, 0.7);
+            border: 2px solid rgba(71, 85, 105, 0.5);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .input-with-icon input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .forgot-password:hover {
+            color: var(--primary-light);
+            text-decoration: underline;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(71, 85, 105, 0.3);
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .auth-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .social-login {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .social-login p {
+            color: #94a3b8;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .social-login p::before,
+        .social-login p::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background: rgba(71, 85, 105, 0.5);
+        }
+
+        .social-login p::before {
+            left: 0;
+        }
+
+        .social-login p::after {
+            right: 0;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(2, 6, 23, 0.7);
+            border: 2px solid rgba(71, 85, 105, 0.5);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .social-btn.google:hover {
+            background: #DB4437;
+            border-color: #DB4437;
+        }
+
+        .social-btn.github:hover {
+            background: #333;
+            border-color: #333;
+        }
+
+        .social-btn.twitter:hover {
+            background: #1DA1F2;
+            border-color: #1DA1F2;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .plans-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .image-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .plans-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .plan-card.popular {
+                transform: none;
+            }
+            
+            .plan-card.popular:hover {
+                transform: translateY(-15px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 6rem 1.5rem 4rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .section {
+                padding: 4rem 0;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .chat-input-container {
+                flex-direction: column;
+            }
+            
+            .chat-actions {
+                justify-content: center;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .creator-section {
+                padding: 2rem;
+            }
+            
+            .social-buttons {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1.2rem 2rem;
+            border-radius: 15px;
+            color: white;
+            font-weight: 500;
+            z-index: 1500;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-width: 400px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, var(--success), var(--secondary-dark));
+            border-left: 5px solid var(--secondary-dark);
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, var(--danger), var(--danger-dark));
+            border-left: 5px solid var(--danger-dark);
+        }
+
+        .notification.info {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-left: 5px solid var(--primary-dark);
+        }
+
+        .notification.warning {
+            background: linear-gradient(135deg, var(--warning), var(--accent-dark));
+            border-left: 5px solid var(--accent-dark);
+        }
+
+        .notification i {
+            font-size: 1.5rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 1.2rem 2.5rem;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            color: white;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* User Menu */
+        .user-menu {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+            border-radius: 15px;
+            padding: 1rem 0;
+            min-width: 250px;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            display: none;
+            backdrop-filter: blur(10px);
+        }
+
+        .dropdown-menu.active {
+            display: block;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(124, 58, 237, 0.1);
+            color: white;
+            padding-left: 2rem;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: rgba(71, 85, 105, 0.3);
+            margin: 0.5rem 0;
+        }
+
+        /* Badge */
+        .badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge-premium {
+            background: linear-gradient(135deg, var(--gold), #f59e0b);
+            color: #1f2937;
+        }
+
+        .badge-pro {
+            background: linear-gradient(135deg, var(--diamond), #0ea5e9);
+            color: white;
+        }
+
+        .badge-max {
+            background: linear-gradient(135deg, var(--platinum), #8b5cf6);
+            color: white;
+        }
+
+        /* Loading States */
+        .loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip:hover::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.95);
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            z-index: 1000;
+            margin-bottom: 10px;
+        }
+
+        .tooltip:hover::after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(124, 58, 237, 0.3);
+            margin-bottom: -2px;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 6, 23, 0.98);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .mobile-menu.active {
+            display: flex;
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .mobile-menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .mobile-menu-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .mobile-menu-links a:hover {
+            background: rgba(124, 58, 237, 0.2);
+        }
+
+        .mobile-menu-links a.active {
+            background: rgba(124, 58, 237, 0.3);
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="loader"></div>
+        <div style="margin-top: 20px; color: #94a3b8; font-size: 1.2rem;">
+            Zynqora AI is loading...
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#home" class="logo">
+            <i class="fas fa-robot logo-icon"></i>
+            <span>Zynqora AI</span>
+            <span class="premium-badge">
+                <i class="fas fa-crown"></i>
+                PREMIUM
+            </span>
+        </a>
+
+        <div class="nav-links">
+            <a href="#home" class="active"><i class="fas fa-home"></i> Home</a>
+            <a href="#chat"><i class="fas fa-comments"></i> AI Chat</a>
+            <a href="#image"><i class="fas fa-image"></i> Image Generation</a>
+            <a href="#features"><i class="fas fa-star"></i> Features</a>
+            <a href="#plans"><i class="fas fa-gem"></i> Plans</a>
+            <a href="#dashboard"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a href="#creator"><i class="fas fa-user-tie"></i> Creator</a>
+        </div>
+
+        <div class="user-section">
+            <div class="user-menu" id="loggedInSection" style="display: none;">
+                <div class="user-avatar" id="userAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="#profile" class="dropdown-item">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="#settings" class="dropdown-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                    <a href="#billing" class="dropdown-item">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Billing</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div id="loggedOutSection">
+                <button class="btn btn-outline" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </button>
+                <button class="btn btn-primary" id="signupBtn">
+                    <i class="fas fa-user-plus"></i>
+                    Sign Up
+                </button>
+            </div>
+            
+            <button class="btn btn-primary" id="upgradeBtn">
+                <i class="fas fa-rocket"></i>
+                Upgrade Now
+            </button>
+        </div>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <span>Zynqora AI</span>
+            </div>
+            <button class="modal-close" id="closeMobileMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="#home" class="active"><i class="fas fa-home"></i> Home</a>
+            <a href="#chat"><i class="fas fa-comments"></i> AI Chat</a>
+            <a href="#image"><i class="fas fa-image"></i> Image Generation</a>
+            <a href="#features"><i class="fas fa-star"></i> Features</a>
+            <a href="#plans"><i class="fas fa-gem"></i> Plans</a>
+            <a href="#dashboard"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a href="#creator"><i class="fas fa-user-tie"></i> Creator</a>
+        </div>
+        <div style="margin-top: auto; padding: 2rem;">
+            <button class="btn btn-primary" style="width: 100%;" id="mobileUpgradeBtn">
+                <i class="fas fa-rocket"></i>
+                Upgrade Now
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="fade-in">Zynqora AI - Your Ultimate AI Assistant</h1>
+            <p class="fade-in">World's first complete AI platform with 180+ language support. Get answers, generate images, create voice content, manage notes, and much more in one platform.</p>
+            
+            <div class="hero-buttons fade-in">
+                <button class="btn btn-primary" onclick="scrollToSection('chat')" style="padding: 1rem 3rem;">
+                    <i class="fas fa-play"></i>
+                    Start Free Trial
+                </button>
+                <button class="btn btn-outline" onclick="openModal('demoModal')">
+                    <i class="fas fa-video"></i>
+                    Watch Demo
+                </button>
+            </div>
+
+            <div class="hero-stats fade-in">
+                <div class="stat-item">
+                    <div class="stat-number">180+</div>
+                    <div class="stat-label">Languages</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Uptime</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50K+</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- AI Chat Section -->
+        <section class="section" id="chat">
+            <h2 class="section-title">AI Intelligent Chat</h2>
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h3><i class="fas fa-robot"></i> Zynqora AI Assistant</h3>
+                    <div class="chat-status online">
+                        <span>Online</span>
+                        <span class="badge badge-premium"><i class="fas fa-crown"></i> PREMIUM</span>
+                    </div>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai">
+                        <div class="message-header">
+                            <i class="fas fa-robot"></i>
+                            <span>Zynqora AI</span>
+                            <span style="margin-left: auto; font-size: 0.8rem;">Just now</span>
+                        </div>
+                        <div class="message-content">
+                            Hello! I'm Zynqora AI. How can I help you today? You can ask me anything about education, technology, science, business, or general knowledge. I support 180+ languages!
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <textarea class="chat-input" id="chatInput" placeholder="Type your question here... (English, Hindi, Spanish, or any 180 languages)"></textarea>
+                    <div class="chat-actions">
+                        <button class="action-btn" id="sendBtn" title="Send Message">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                        <button class="action-btn secondary" id="voiceBtn" title="Voice Input">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <button class="action-btn" id="ttsBtn" title="Text to Speech">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        <button class="action-btn warning" id="copyBtn" title="Copy Response">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button class="action-btn danger" id="clearBtn" title="Clear Chat">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section" id="features">
+            <h2 class="section-title">Premium Features</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Advanced AI Models <span class="badge badge-premium">PREMIUM</span></h3>
+                    <p>Powerful AI system combining GPT-4, Claude, Gemini, and local models. 99.9% accuracy and fast response times.</p>
+                    <div class="feature-tags">
+                        <span class="tag">GPT-4</span>
+                        <span class="tag">Claude 3</span>
+                        <span class="tag">Gemini Pro</span>
+                        <span class="tag">Local AI</span>
+                    </div>
+                </div>
+
+                <div class="feature-card premium">
+                    <div class="feature-icon">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <h3>HD Image Generation <span class="badge badge-premium">4K</span></h3>
+                    <p>Generate images in 4K resolution using Stable Diffusion XL, DALL-E 3, and custom models. 100+ art styles available.</p>
+                    <div class="feature-tags">
+                        <span class="tag premium">SDXL</span>
+                        <span class="tag premium">DALL-E 3</span>
+                        <span class="tag premium">4K Resolution</span>
+                        <span class="tag premium">100+ Styles</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3>180+ Language Support</h3>
+                    <p>Full support for 180 languages including English, Hindi, Spanish, Arabic, French. Real-time translation.</p>
+                    <div class="feature-tags">
+                        <span class="tag">English</span>
+                        <span class="tag">हिन्दी</span>
+                        <span class="tag">Español</span>
+                        <span class="tag">العربية</span>
+                    </div>
+                </div>
+
+                <div class="feature-card premium">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h3>Document Analysis <span class="badge badge-premium">PRO</span></h3>
+                    <p>Upload PDF, DOCX, Excel, Image files and analyze with AI. OCR technology supported.</p>
+                    <div class="feature-tags">
+                        <span class="tag premium">PDF Parsing</span>
+                        <span class="tag premium">DOCX Analysis</span>
+                        <span class="tag premium">OCR Technology</span>
+                        <span class="tag premium">Bulk Processing</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI Agents <span class="badge badge-max">MAX</span></h3>
+                    <p>Create custom AI agents to work for you. Automated task management and scheduling.</p>
+                    <div class="feature-tags">
+                        <span class="tag">Custom Agents</span>
+                        <span class="tag">Automation</span>
+                        <span class="tag">Scheduling</span>
+                        <span class="tag">Multi-tasking</span>
+                    </div>
+                </div>
+
+                <div class="feature-card premium">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Unlimited Storage <span class="badge badge-premium">100GB</span></h3>
+                    <p>100GB cloud storage, unlimited chat history, and automatic backups. Data encryption secured.</p>
+                    <div class="feature-tags">
+                        <span class="tag premium">100GB Storage</span>
+                        <span class="tag premium">Encryption</span>
+                        <span class="tag premium">Backup</span>
+                        <span class="tag premium">Synchronization</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Image Generation Section -->
+        <section class="section" id="image">
+            <h2 class="section-title">AI Image Generation</h2>
+            
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="generate">Generate Image</button>
+                <button class="tab-btn" data-tab="inpaint">Edit Image</button>
+                <button class="tab-btn" data-tab="styles">Style Library</button>
+                <button class="tab-btn" data-tab="history">History</button>
+            </div>
+
+            <div class="tab-content active" id="generateTab">
+                <div class="image-gen-container">
+                    <div class="image-form">
+                        <div class="form-group full-width">
+                            <label for="prompt"><i class="fas fa-edit"></i> Prompt (Detailed Description)</label>
+                            <textarea class="form-control" id="prompt" rows="4" placeholder="Example: A beautiful sunset scene by the ocean, digital art style, 4K resolution, cinematic lighting..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="model"><i class="fas fa-cogs"></i> AI Model</label>
+                            <select class="form-control" id="model">
+                                <option value="sdxl">Stable Diffusion XL (Best Quality)</option>
+                                <option value="dalle3">DALL-E 3 (Most Creative)</option>
+                                <option value="midjourney">Midjourney Style (Artistic)</option>
+                                <option value="custom">Custom Model</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="style"><i class="fas fa-palette"></i> Art Style</label>
+                            <select class="form-control" id="style">
+                                <option value="realistic">Realistic</option>
+                                <option value="anime">Anime</option>
+                                <option value="digital">Digital Art</option>
+                                <option value="oil">Oil Painting</option>
+                                <option value="watercolor">Watercolor</option>
+                                <option value="cyberpunk">Cyberpunk</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="size"><i class="fas fa-expand"></i> Resolution</label>
+                            <select class="form-control" id="size">
+                                <option value="512x512">512×512 (Basic)</option>
+                                <option value="768x768">768×768 (Standard)</option>
+                                <option value="1024x1024">1024×1024 (HD)</option>
+                                <option value="2048x2048" disabled>2048×2048 (4K) - PREMIUM</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="negativePrompt"><i class="fas fa-ban"></i> Negative Prompt</label>
+                            <textarea class="form-control" id="negativePrompt" rows="2" placeholder="Example: distorted, blurry, text, watermark..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="guidance"><i class="fas fa-sliders-h"></i> Guidance Scale: <span id="guidanceValue">7.5</span></label>
+                            <input type="range" class="form-control" id="guidance" min="1" max="20" step="0.5" value="7.5">
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary" id="generateBtn" style="width: 100%; padding: 1.5rem; font-size: 1.2rem;">
+                        <i class="fas fa-magic"></i> Generate Image (Premium)
+                    </button>
+                    
+                    <div class="image-preview" id="imagePreview">
+                        <div style="text-align: center; color: #94a3b8; padding: 4rem;">
+                            <i class="fas fa-image" style="font-size: 4rem; margin-bottom: 1.5rem; opacity: 0.5;"></i>
+                            <h3 style="margin-bottom: 1rem; color: #e2e8f0;">Generated image will appear here</h3>
+                            <p>Premium users can generate images in 4K resolution</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Plans Section -->
+        <section class="section" id="plans">
+            <h2 class="section-title">Premium Subscription Plans</h2>
+            
+            <div class="plans-container">
+                <!-- Free Plan -->
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <div class="plan-name">
+                            <i class="fas fa-user"></i>
+                            Free
+                        </div>
+                        <div class="plan-price">$0</div>
+                        <div class="plan-period">Forever</div>
+                    </div>
+                    
+                    <div class="plan-features">
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>5 Questions Daily</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Basic AI Chat</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>2 Language Support</span>
+                        </div>
+                        <div class="plan-feature disabled">
+                            <i class="fas fa-times"></i>
+                            <span>Image Generation</span>
+                        </div>
+                        <div class="plan-feature disabled">
+                            <i class="fas fa-times"></i>
+                            <span>Voice Generation</span>
+                        </div>
+                        <div class="plan-feature disabled">
+                            <i class="fas fa-times"></i>
+                            <span>PDF Parsing</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-outline" onclick="selectPlan('free')">
+                        Current Plan
+                    </button>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="plan-card popular">
+                    <div class="plan-header">
+                        <div class="plan-name">
+                            <i class="fas fa-crown"></i>
+                            Premium
+                        </div>
+                        <div class="plan-price">$4.99</div>
+                        <div class="plan-period">/ Monthly</div>
+                        <div style="margin-top: 1rem; color: var(--gold);">
+                            <i class="fas fa-fire"></i> Most Popular
+                        </div>
+                    </div>
+                    
+                    <div class="plan-features">
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Unlimited Questions</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>GPT-4 & Claude 3 Access</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>HD Image Generation (2K)</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>50+ Language Support</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Voice Input/Output</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>PDF/DOCX Parsing</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>10GB Storage</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-gold" onclick="selectPlan('premium')">
+                        <i class="fas fa-shopping-cart"></i>
+                        Buy Now
+                    </button>
+                    
+                    <div style="margin-top: 1.5rem; text-align: center; color: #94a3b8; font-size: 0.9rem;">
+                        <i class="fas fa-gift"></i> Get 2 months free with annual plan!
+                    </div>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <div class="plan-name">
+                            <i class="fas fa-gem"></i>
+                            Pro
+                        </div>
+                        <div class="plan-price">$9.99</div>
+                        <div class="plan-period">/ Monthly</div>
+                    </div>
+                    
+                    <div class="plan-features">
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>All Premium Features</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>4K Image Generation</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>180+ Language Support</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>API Access</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Priority Support</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Custom AI Agents</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>50GB Storage</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-diamond" onclick="selectPlan('pro')">
+                        <i class="fas fa-rocket"></i>
+                        Upgrade to Pro
+                    </button>
+                </div>
+
+                <!-- Max Plan -->
+                <div class="plan-card enterprise">
+                    <div class="plan-header">
+                        <div class="plan-name">
+                            <i class="fas fa-infinity"></i>
+                            Max
+                        </div>
+                        <div class="plan-price">$19.99</div>
+                        <div class="plan-period">/ Monthly</div>
+                    </div>
+                    
+                    <div class="plan-features">
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>All Pro Features</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>8K Image Generation</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Multi-User Access</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Dedicated Server</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>White-label Solution</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Custom Model Training</span>
+                        </div>
+                        <div class="plan-feature">
+                            <i class="fas fa-check"></i>
+                            <span>100GB Storage</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-platinum" onclick="selectPlan('max')">
+                        <i class="fas fa-crown"></i>
+                        Enterprise
+                    </button>
+                    
+                    <div style="margin-top: 1.5rem; text-align: center; color: #a78bfa; font-size: 0.9rem;">
+                        <i class="fas fa-headset"></i> 24/7 Dedicated Support
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 4rem; color: #94a3b8;">
+                <p><i class="fas fa-shield-alt"></i> 100% Secure Payment | 14-day Money Back Guarantee</p>
+                <p><i class="fas fa-sync-alt"></i> Upgrade/Downgrade Anytime | No Lock-in Contracts</p>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section class="section" id="dashboard">
+            <h2 class="section-title">User Dashboard</h2>
+            
+            <div class="dashboard">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-question-circle"></i> Today's Questions</h3>
+                            <span class="badge badge-premium">Premium</span>
+                        </div>
+                        <div class="card-value" id="todayQuestions">3/5</div>
+                        <div class="card-label">Free Limit Reached</div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-image"></i> Image Generation</h3>
+                            <span class="badge badge-premium">Locked</span>
+                        </div>
+                        <div class="card-value" id="imageCredits">0/10</div>
+                        <div class="card-label">Premium Required</div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-language"></i> Languages Used</h3>
+                            <span class="badge">Free</span>
+                        </div>
+                        <div class="card-value" id="languagesUsed">2/2</div>
+                        <div class="card-label">English & Spanish</div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-history"></i> Chat History</h3>
+                            <span class="badge">30 Days</span>
+                        </div>
+                        <div class="card-value" id="chatHistory">47</div>
+                        <div class="card-label">Total Conversations</div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 47%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 3rem;">
+                    <button class="btn btn-primary" onclick="upgradeToPremium()">
+                        <i class="fas fa-crown"></i>
+                        Upgrade to Premium
+                    </button>
+                    <p style="color: #94a3b8; margin-top: 1rem;">
+                        Upgrade to Premium to get: Unlimited questions, HD Image Generation, 50+ languages, and much more!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Creator Section -->
+        <section class="section" id="creator">
+            <h2 class="section-title">Our Creator</h2>
+            
+            <div class="creator-section">
+                <div class="creator-card">
+                    <div class="creator-avatar">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    
+                    <div class="creator-info">
+                        <h3>Abu Sayed</h3>
+                        <div class="creator-title">
+                            <i class="fas fa-code"></i> Lead AI Developer & Founder
+                        </div>
+                        
+                        <div class="creator-description">
+                            Abu Sayed, from West Bengal, India, created Zynqora AI at just 17 years old. 
+                            His vision was to build an AI platform that everyone could use, 
+                            especially making AI technology accessible to people who prefer their native languages.
+                        </div>
+                        
+                        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                            <div style="text-align: center; padding: 1rem; background: rgba(124, 58, 237, 0.1); border-radius: 10px; min-width: 150px;">
+                                <div style="font-size: 2rem; font-weight: bold; color: var(--primary);">17</div>
+                                <div style="color: #94a3b8;">Age</div>
+                            </div>
+                            
+                            <div style="text-align: center; padding: 1rem; background: rgba(16, 185, 129, 0.1); border-radius: 10px; min-width: 150px;">
+                                <div style="font-size: 2rem; font-weight: bold; color: var(--secondary);">3+</div>
+                                <div style="color: #94a3b8;">Years Experience</div>
+                            </div>
+                            
+                            <div style="text-align: center; padding: 1rem; background: rgba(251, 191, 36, 0.1); border-radius: 10px; min-width: 150px;">
+                                <div style="font-size: 2rem; font-weight: bold; color: var(--gold);">50K+</div>
+                                <div style="color: #94a3b8;">Users</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 2rem;">
+                            <button class="btn btn-outline" onclick="askAboutCreator()">
+                                <i class="fas fa-robot"></i>
+                                Ask me "Who created you?"
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Zynqora AI</h3>
+                <p>World's first complete AI platform in multiple languages. One solution for education, research, creativity, and business.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="#features"><i class="fas fa-chevron-right"></i> Features</a></li>
+                    <li><a href="#plans"><i class="fas fa-chevron-right"></i> Pricing</a></li>
+                    <li><a href="#dashboard"><i class="fas fa-chevron-right"></i> Dashboard</a></li>
+                    <li><a href="#creator"><i class="fas fa-chevron-right"></i> Creator</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Help Center</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> API Documentation</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Terms of Service</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-envelope"></i> support@zynqora.com</a></li>
+                    <li><a href="#"><i class="fas fa-phone"></i> +91 90000 00000</a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Kolkata, India</a></li>
+                    <li><a href="#"><i class="fas fa-server"></i> Server Status: <span id="serverStatus" style="color: var(--success);">Online</span></a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 Zynqora AI. All rights reserved. Created by <strong>Abu Sayed (Age 17)</strong></p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                <i class="fas fa-heart" style="color: var(--danger);"></i> From India to the World
+            </p>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div class="modal" id="demoModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('demoModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 style="margin-bottom: 2rem; color: white;">Zynqora AI Live Demo</h2>
+            <div style="text-align: center; padding: 2rem; background: rgba(2, 6, 23, 0.5); border-radius: 15px;">
+                <i class="fas fa-video" style="font-size: 3rem; color: var(--primary); margin-bottom: 1.5rem;"></i>
+                <p style="color: #cbd5e1; margin-bottom: 2rem;">Demo video will be added soon. For now, you can try the AI chat directly.</p>
+                <button class="btn btn-primary" onclick="scrollToSection('chat')">
+                    <i class="fas fa-comments"></i>
+                    Try AI Chat
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login/Signup Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('authModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 style="margin-bottom: 2rem; color: white; text-align: center;">Welcome to Zynqora AI</h2>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Login</button>
+                <button class="auth-tab" data-tab="signup">Sign Up</button>
+            </div>
+            
+            <!-- Login Form -->
+            <div class="auth-form active" id="loginForm">
+                <form id="loginFormElement">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                        </div>
+                    </div>
+                    
+                    <div class="remember-forgot">
+                        <div class="remember-me">
+                            <input type="checkbox" id="rememberMe">
+                            <label for="rememberMe">Remember me</label>
+                        </div>
+                        <a href="#" class="forgot-password" onclick="showForgotPassword()">Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Login
+                    </button>
+                </form>
+                
+                <div class="social-login">
+                    <p>Or continue with</p>
+                    <div class="social-buttons">
+                        <button class="social-btn google" onclick="socialLogin('google')">
+                            <i class="fab fa-google"></i>
+                        </button>
+                        <button class="social-btn github" onclick="socialLogin('github')">
+                            <i class="fab fa-github"></i>
+                        </button>
+                        <button class="social-btn twitter" onclick="socialLogin('twitter')">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="#" onclick="switchAuthTab('signup')">Sign up here</a></p>
+                </div>
+            </div>
+            
+            <!-- Signup Form -->
+            <div class="auth-form" id="signupForm">
+                <form id="signupFormElement">
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="signupName" placeholder="Enter your full name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signupEmail">Email Address</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="signupPassword" placeholder="Create a password" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="remember-me">
+                            <input type="checkbox" id="termsAgreement" required>
+                            <label for="termsAgreement">I agree to the <a href="#" style="color: var(--primary);">Terms of Service</a> and <a href="#" style="color: var(--primary);">Privacy Policy</a></label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">
+                        <i class="fas fa-user-plus"></i>
+                        Create Account
+                    </button>
+                </form>
+                
+                <div class="social-login">
+                    <p>Or sign up with</p>
+                    <div class="social-buttons">
+                        <button class="social-btn google" onclick="socialLogin('google')">
+                            <i class="fab fa-google"></i>
+                        </button>
+                        <button class="social-btn github" onclick="socialLogin('github')">
+                            <i class="fab fa-github"></i>
+                        </button>
+                        <button class="social-btn twitter" onclick="socialLogin('twitter')">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="#" onclick="switchAuthTab('login')">Login here</a></p>
+                </div>
+            </div>
+            
+            <!-- Forgot Password Form -->
+            <div class="auth-form" id="forgotPasswordForm">
+                <h3 style="margin-bottom: 1.5rem; color: white; text-align: center;">Reset Password</h3>
+                <p style="color: #94a3b8; margin-bottom: 2rem; text-align: center;">Enter your email address and we'll send you a link to reset your password.</p>
+                
+                <form id="forgotPasswordFormElement">
+                    <div class="form-group">
+                        <label for="resetEmail">Email Address</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="resetEmail" placeholder="Enter your email" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Reset Link
+                    </button>
+                </form>
+                
+                <div class="auth-footer">
+                    <p><a href="#" onclick="switchAuthTab('login')">← Back to Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('paymentModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 style="margin-bottom: 2rem; color: white;" id="paymentTitle">Payment</h2>
+            
+            <div id="paymentContent">
+                <!-- Payment content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Server URL - For your FastAPI server
+        const SERVER_URL = 'http://localhost:8000';
+        
+        // DOM Elements
+        const preloader = document.getElementById('preloader');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const voiceBtn = document.getElementById('voiceBtn');
+        const ttsBtn = document.getElementById('ttsBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const generateBtn = document.getElementById('generateBtn');
+        const imagePreview = document.getElementById('imagePreview');
+        const notification = document.getElementById('notification');
+        const userAvatar = document.getElementById('userAvatar');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+        const loginBtn = document.getElementById('loginBtn');
+        const signupBtn = document.getElementById('signupBtn');
+        const loggedInSection = document.getElementById('loggedInSection');
+        const loggedOutSection = document.getElementById('loggedOutSection');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const authModal = document.getElementById('authModal');
+        
+        // Global Variables
+        let currentAnswer = '';
+        let isProcessing = false;
+        let userTier = 'free'; // free, premium, pro, max
+        let todayQuestions = 3;
+        let maxFreeQuestions = 5;
+        let currentUser = null;
+        
+        // Enhanced Creator Keywords - Multiple languages
+        const creatorKeywords = [
+            // English
+            'who made you', 'who created you', 'who built you', 'who developed you',
+            'who is your creator', 'who is your developer', 'who programmed you',
+            'who designed you', 'who is your maker', 'who invented you',
+            'tell me about your creator', 'who made this ai', 'who created this ai',
+            'who is behind you', 'who is your father', 'who is your parent',
+            'who is your owner', 'who is your boss', 'who do you belong to',
+            
+            // Hindi
+            'किसने बनाया तुम्हें', 'तुम्हारा निर्माता कौन है', 'तुम्हें किसने बनाया',
+            'तुम्हारा डेवलपर कौन है', 'तुम्हारा सर्जक कौन है',
+            
+            // Bengali
+            'তোমাকে কে বানিয়েছে', 'তোমার স্রষ্টা কে', 'তোমার নির্মাতা কে',
+            'তোমার ডেভেলপার কে', 'তোমাকে কে তৈরি করেছে',
+            
+            // Other languages
+            'abu sayed', 'সায়েম', 'sayem', 'creator', 'developer',
+            'made you', 'built you', 'created you', 'know abu', 'know sayed',
+            
+            // Additional variations
+            'do you know abu sayed', 'tell me about abu sayed', 'who is abu sayed',
+            'what is your creator name', 'what is your developer name',
+            'তোমার বানিয়েছে কে', 'তোমার সৃষ্টিকর্তা কে', 'তোমার নির্মাতা কে'
+        ];
+        
+        // Preloader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+            }, 1500);
+        });
+        
+        // Check if user is logged in from localStorage
+        function checkLoginStatus() {
+            const userData = localStorage.getItem('zynqora_user');
+            if (userData) {
+                currentUser = JSON.parse(userData);
+                updateUIForLoggedInUser();
+            } else {
+                updateUIForLoggedOutUser();
+            }
+        }
+        
+        function updateUIForLoggedInUser() {
+            loggedInSection.style.display = 'flex';
+            loggedOutSection.style.display = 'none';
+            
+            // Update user avatar with first letter of name
+            if (currentUser && currentUser.name) {
+                const firstLetter = currentUser.name.charAt(0).toUpperCase();
+                userAvatar.innerHTML = firstLetter;
+                userAvatar.style.background = `linear-gradient(135deg, ${getRandomColor()}, ${getRandomColor()})`;
+            }
+        }
+        
+        function updateUIForLoggedOutUser() {
+            loggedInSection.style.display = 'none';
+            loggedOutSection.style.display = 'flex';
+        }
+        
+        function getRandomColor() {
+            const colors = [
+                '#7c3aed', '#10b981', '#f59e0b', '#ef4444', '#3b82f6', 
+                '#8b5cf6', '#06b6d4', '#84cc16', '#f97316'
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check login status on page load
+            checkLoginStatus();
+            
+            // Tab System
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                    document.getElementById(tabId + 'Tab').classList.add('active');
+                });
+            });
+            
+            // Auth Tabs
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    switchAuthTab(tabId);
+                });
+            });
+            
+            // Slider Updates
+            document.getElementById('guidance').addEventListener('input', function() {
+                document.getElementById('guidanceValue').textContent = this.value;
+            });
+            
+            // Chat Send Button
+            sendBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+            
+            // Voice Button
+            voiceBtn.addEventListener('click', function() {
+                if (userTier === 'free') {
+                    showNotification('Voice input is for Premium users only', 'warning');
+                    return;
+                }
+                startVoiceInput();
+            });
+            
+            // TTS Button
+            ttsBtn.addEventListener('click', function() {
+                if (!currentAnswer) {
+                    showNotification('No answer to convert to speech', 'warning');
+                    return;
+                }
+                if (userTier === 'free') {
+                    showNotification('TTS is for Premium users only', 'warning');
+                    return;
+                }
+                generateTTS(currentAnswer);
+            });
+            
+            // Copy Button
+            copyBtn.addEventListener('click', function() {
+                if (currentAnswer) {
+                    navigator.clipboard.writeText(currentAnswer)
+                        .then(() => showNotification('Answer copied to clipboard!', 'success'))
+                        .catch(() => showNotification('Failed to copy', 'error'));
+                } else {
+                    showNotification('No answer to copy', 'warning');
+                }
+            });
+            
+            // Clear Button
+            clearBtn.addEventListener('click', function() {
+                chatMessages.innerHTML = `
+                    <div class="message ai">
+                        <div class="message-header">
+                            <i class="fas fa-robot"></i>
+                            <span>Zynqora AI</span>
+                            <span style="margin-left: auto; font-size: 0.8rem;">Just now</span>
+                        </div>
+                        <div class="message-content">
+                            Hello! I'm Zynqora AI. How can I help you today? You can ask me anything about education, technology, science, business, or general knowledge. I support 180+ languages!
+                        </div>
+                    </div>
+                `;
+                currentAnswer = '';
+                showNotification('Chat cleared', 'info');
+            });
+            
+            // Image Generation Button
+            generateBtn.addEventListener('click', generateImage);
+            
+            // User Menu
+            userAvatar.addEventListener('click', function(e) {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle('active');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function() {
+                dropdownMenu.classList.remove('active');
+            });
+            
+            // Mobile Menu
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.add('active');
+            });
+            
+            closeMobileMenu.addEventListener('click', function() {
+                mobileMenu.classList.remove('active');
+            });
+            
+            // Close mobile menu when clicking a link
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.remove('active');
+                });
+            });
+            
+            // Login/Signup Buttons
+            loginBtn.addEventListener('click', function() {
+                openModal('authModal');
+                switchAuthTab('login');
+            });
+            
+            signupBtn.addEventListener('click', function() {
+                openModal('authModal');
+                switchAuthTab('signup');
+            });
+            
+            // Logout Button
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                logout();
+            });
+            
+            // Upgrade Button
+            document.getElementById('upgradeBtn').addEventListener('click', function() {
+                scrollToSection('plans');
+            });
+            
+            document.getElementById('mobileUpgradeBtn').addEventListener('click', function() {
+                scrollToSection('plans');
+                mobileMenu.classList.remove('active');
+            });
+            
+            // Form Submissions
+            document.getElementById('loginFormElement').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                const rememberMe = document.getElementById('rememberMe').checked;
+                
+                loginUser(email, password, rememberMe);
+            });
+            
+            document.getElementById('signupFormElement').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('signupName').value;
+                const email = document.getElementById('signupEmail').value;
+                const password = document.getElementById('signupPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                
+                if (password !== confirmPassword) {
+                    showNotification('Passwords do not match', 'error');
+                    return;
+                }
+                
+                signupUser(name, email, password);
+            });
+            
+            document.getElementById('forgotPasswordFormElement').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('resetEmail').value;
+                forgotPassword(email);
+            });
+            
+            // Check server status
+            checkServerStatus();
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        // Update active nav link
+                        document.querySelectorAll('.nav-links a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                        
+                        // Scroll to section
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Update active nav link on scroll
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('section[id]');
+                const scrollPos = window.scrollY + 100;
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    const sectionId = section.getAttribute('id');
+                    
+                    if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                        document.querySelectorAll('.nav-links a').forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${sectionId}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            });
+        });
+        
+        // Auth Functions
+        function switchAuthTab(tabId) {
+            // Update tabs
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('data-tab') === tabId) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            // Update forms
+            document.querySelectorAll('.auth-form').forEach(form => {
+                form.classList.remove('active');
+            });
+            
+            document.getElementById(tabId + 'Form').classList.add('active');
+        }
+        
+        function showForgotPassword() {
+            document.querySelectorAll('.auth-form').forEach(form => {
+                form.classList.remove('active');
+            });
+            document.getElementById('forgotPasswordForm').classList.add('active');
+        }
+        
+        function loginUser(email, password, rememberMe) {
+            // In a real app, you would make an API call here
+            // For demo, simulate login with dummy data
+            
+            if (!email || !password) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            // Show loading
+            const submitBtn = document.querySelector('#loginFormElement button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // For demo, accept any email/password
+                const userData = {
+                    id: Date.now(),
+                    name: email.split('@')[0],
+                    email: email,
+                    tier: 'free',
+                    joinDate: new Date().toISOString()
+                };
+                
+                // Save to localStorage
+                localStorage.setItem('zynqora_user', JSON.stringify(userData));
+                
+                // Update global state
+                currentUser = userData;
+                
+                // Update UI
+                updateUIForLoggedInUser();
+                
+                // Close modal
+                closeModal('authModal');
+                
+                // Show success message
+                showNotification('Successfully logged in!', 'success');
+                
+                // Reset form
+                document.getElementById('loginFormElement').reset();
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+            }, 1500);
+        }
+        
+        function signupUser(name, email, password) {
+            if (!name || !email || !password) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            // Show loading
+            const submitBtn = document.querySelector('#signupFormElement button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // For demo, create user
+                const userData = {
+                    id: Date.now(),
+                    name: name,
+                    email: email,
+                    tier: 'free',
+                    joinDate: new Date().toISOString()
+                };
+                
+                // Save to localStorage
+                localStorage.setItem('zynqora_user', JSON.stringify(userData));
+                
+                // Update global state
+                currentUser = userData;
+                
+                // Update UI
+                updateUIForLoggedInUser();
+                
+                // Close modal
+                closeModal('authModal');
+                
+                // Show success message
+                showNotification('Account created successfully! Welcome to Zynqora AI!', 'success');
+                
+                // Reset form
+                document.getElementById('signupFormElement').reset();
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+            }, 1500);
+        }
+        
+        function forgotPassword(email) {
+            if (!email) {
+                showNotification('Please enter your email', 'error');
+                return;
+            }
+            
+            // Show loading
+            const submitBtn = document.querySelector('#forgotPasswordFormElement button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                showNotification('Password reset link sent to your email', 'success');
+                
+                // Reset form
+                document.getElementById('forgotPasswordFormElement').reset();
+                
+                // Switch back to login
+                switchAuthTab('login');
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+            }, 1500);
+        }
+        
+        function socialLogin(provider) {
+            showNotification(`Connecting with ${provider}...`, 'info');
+            
+            // Simulate social login
+            setTimeout(() => {
+                const userData = {
+                    id: Date.now(),
+                    name: provider === 'google' ? 'Google User' : 
+                          provider === 'github' ? 'GitHub User' : 'Twitter User',
+                    email: `${provider}@example.com`,
+                    tier: 'free',
+                    joinDate: new Date().toISOString(),
+                    provider: provider
+                };
+                
+                // Save to localStorage
+                localStorage.setItem('zynqora_user', JSON.stringify(userData));
+                
+                // Update global state
+                currentUser = userData;
+                
+                // Update UI
+                updateUIForLoggedInUser();
+                
+                // Close modal
+                closeModal('authModal');
+                
+                // Show success message
+                showNotification(`Logged in with ${provider}!`, 'success');
+                
+            }, 1500);
+        }
+        
+        function logout() {
+            // Clear user data
+            localStorage.removeItem('zynqora_user');
+            currentUser = null;
+            
+            // Update UI
+            updateUIForLoggedOutUser();
+            
+            // Close dropdown
+            dropdownMenu.classList.remove('active');
+            
+            // Show notification
+            showNotification('Logged out successfully', 'info');
+            
+            // Reset chat if needed
+            if (chatMessages.children.length > 1) {
+                chatMessages.innerHTML = `
+                    <div class="message ai">
+                        <div class="message-header">
+                            <i class="fas fa-robot"></i>
+                            <span>Zynqora AI</span>
+                            <span style="margin-left: auto; font-size: 0.8rem;">Just now</span>
+                        </div>
+                        <div class="message-content">
+                            Hello! I'm Zynqora AI. How can I help you today? You can ask me anything about education, technology, science, business, or general knowledge. I support 180+ languages!
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        // Functions
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                window.scrollTo({
+                    top: section.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        }
+        
+        function showNotification(message, type = 'info') {
+            const icon = {
+                'success': 'fas fa-check-circle',
+                'error': 'fas fa-exclamation-circle',
+                'warning': 'fas fa-exclamation-triangle',
+                'info': 'fas fa-info-circle'
+            }[type];
+            
+            notification.innerHTML = `
+                <i class="${icon}"></i>
+                <span>${message}</span>
+            `;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+        
+        function addMessage(text, sender, isCreator = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender} ${isCreator ? 'creator' : ''}`;
+            
+            const senderName = sender === 'user' ? 'You' : 'Zynqora AI';
+            const senderIcon = sender === 'user' ? 'fas fa-user' : (isCreator ? 'fas fa-user-tie' : 'fas fa-robot');
+            
+            if (isCreator) {
+                messageDiv.innerHTML = `
+                    <div class="message-header">
+                        <i class="${senderIcon}"></i>
+                        <span>${senderName}</span>
+                        <span class="badge badge-premium" style="margin-left: auto; font-size: 0.7rem; padding: 0.2rem 0.5rem;">
+                            <i class="fas fa-crown"></i> Creator Info
+                        </span>
+                    </div>
+                    <div class="message-content">
+                        ${text}
+                        <div class="creator-info">
+                            <strong>Note:</strong> This information is specially programmed. I always respond in English when asked about my creator.
+                        </div>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="message-header">
+                        <i class="${senderIcon}"></i>
+                        <span>${senderName}</span>
+                        <span style="margin-left: auto; font-size: 0.8rem;">Just now</span>
+                    </div>
+                    <div class="message-content">
+                        ${text}
+                    </div>
+                `;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function isCreatorQuestion(question) {
+            const questionLower = question.toLowerCase();
+            
+            // Check for creator keywords
+            for (const keyword of creatorKeywords) {
+                if (questionLower.includes(keyword.toLowerCase())) {
+                    return true;
+                }
+            }
+            
+            // Additional checks for similar questions
+            const patterns = [
+                /(who|what).*(create|make|build|develop|design).*(you|ai|bot)/i,
+                /(creator|developer|maker|builder|designer).*(name|who)/i,
+                /(abu|sayed|sayem).*(who|what)/i,
+                /(know|tell).*(about).*(abu|sayed|sayem)/i
+            ];
+            
+            for (const pattern of patterns) {
+                if (pattern.test(questionLower)) {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+        
+        async function sendMessage() {
+            // Check if user is logged in
+            if (!currentUser) {
+                showNotification('Please login to use the AI chat', 'warning');
+                openModal('authModal');
+                return;
+            }
+            
+            const question = chatInput.value.trim();
+            if (!question) {
+                showNotification('Please type a question', 'error');
+                return;
+            }
+            
+            // Check if question is about creator (enhanced detection)
+            if (isCreatorQuestion(question)) {
+                // Add user message to chat
+                addMessage(question, 'user');
+                
+                // Clear input
+                chatInput.value = '';
+                
+                // ALWAYS respond in English about creator
+                const creatorResponse = `I was created by <strong>Abu Sayed, Age 17</strong>. He is an Indian AI developer from West Bengal who built this platform to make AI technology accessible to everyone in their native languages.`;
+                
+                currentAnswer = creatorResponse;
+                addMessage(creatorResponse, 'ai', true);
+                
+                // Show notification
+                showNotification('Creator information provided in English', 'info');
+                return;
+            }
+            
+            // Check rate limit for free users
+            if (userTier === 'free') {
+                if (todayQuestions >= maxFreeQuestions) {
+                    showNotification(`Daily limit of ${maxFreeQuestions} questions reached. Upgrade to Premium.`, 'warning');
+                    scrollToSection('plans');
+                    return;
+                }
+            }
+            
+            if (isProcessing) {
+                showNotification('Please wait...', 'info');
+                return;
+            }
+            
+            isProcessing = true;
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            
+            // Add user message
+            addMessage(question, 'user');
+            chatInput.value = '';
+            
+            // Update question count for free users
+            if (userTier === 'free') {
+                todayQuestions++;
+                document.getElementById('todayQuestions').textContent = `${todayQuestions}/${maxFreeQuestions}`;
+                document.querySelector('.progress').style.width = `${(todayQuestions / maxFreeQuestions) * 100}%`;
+            }
+            
+            try {
+                // For demo, simulate AI response
+                await simulateAIResponse(question);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                
+                // Fallback responses
+                const fallbackResponses = [
+                    "Sorry, I can't answer your question right now. Please try again.",
+                    "There's an issue with the server. Please try again later.",
+                    "I can't process your question at the moment. Please ask another question."
+                ];
+                
+                const fallbackAnswer = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+                currentAnswer = fallbackAnswer;
+                addMessage(fallbackAnswer, 'ai');
+                
+                showNotification('Server issue, showing fallback answer', 'error');
+            } finally {
+                isProcessing = false;
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+            }
+        }
+        
+        async function simulateAIResponse(question) {
+            // Simulate AI processing delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            const responses = {
+                'hello': 'Hello! I\'m Zynqora AI. How can I help you today?',
+                'hi': 'Hi! I\'m Zynqora AI. Do you have any questions for me?',
+                'help': 'I can help you with: 1. Answering any questions 2. Generating images 3. Creating notes 4. Managing tasks.',
+                'image': 'To generate images, go to the "Image Generation" section and type a prompt.',
+                'premium': 'Check our "Plans" section for premium features.',
+                'language': 'I support 180+ languages including English, Hindi, Spanish, Arabic, French, and many more!',
+                'features': 'I have many features: AI Chat, Image Generation, Voice Support, Document Analysis, and more!'
+            };
+            
+            let answer = responses[question.toLowerCase()] || 
+                `Your question: "${question}"\n\nThis is a demo response. In the real server, AI will provide proper answers. You can ask more detailed questions or try "Image Generation".`;
+            
+            currentAnswer = answer;
+            addMessage(answer, 'ai');
+        }
+        
+        async function generateImage() {
+            if (!currentUser) {
+                showNotification('Please login to generate images', 'warning');
+                openModal('authModal');
+                return;
+            }
+            
+            if (userTier === 'free') {
+                showNotification('Image generation is for Premium users only', 'warning');
+                scrollToSection('plans');
+                return;
+            }
+            
+            const prompt = document.getElementById('prompt').value.trim();
+            if (!prompt) {
+                showNotification('Please describe an image', 'error');
+                return;
+            }
+            
+            const model = document.getElementById('model').value;
+            const style = document.getElementById('style').value;
+            const size = document.getElementById('size').value;
+            const negativePrompt = document.getElementById('negativePrompt').value;
+            const guidance = document.getElementById('guidance').value;
+            
+            // Loading state
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating Image...';
+            
+            // Show loading in preview
+            imagePreview.innerHTML = `
+                <div style="text-align: center; padding: 4rem;">
+                    <div class="loader" style="width: 60px; height: 60px; margin: 0 auto 2rem;"></div>
+                    <p style="color: #94a3b8; margin-bottom: 1rem;">AI is generating your image...</p>
+                    <p style="color: #64748b; font-size: 0.9rem;">
+                        Model: ${model}<br>
+                        Style: ${style}<br>
+                        Resolution: ${size}
+                    </p>
+                </div>
+            `;
+            
+            try {
+                // Simulate image generation delay
+                await new Promise(resolve => setTimeout(resolve, 3000));
+                
+                // Demo images from Unsplash
+                const demoImages = [
+                    'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&h=600&fit=crop',
+                    'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&h=600&fit=crop',
+                    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop',
+                    'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop',
+                    'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800&h=600&fit=crop'
+                ];
+                
+                const randomImage = demoImages[Math.floor(Math.random() * demoImages.length)];
+                
+                imagePreview.innerHTML = `
+                    <img src="${randomImage}" alt="Generated Image">
+                    <div class="image-stats">
+                        <div><i class="fas fa-clock"></i> Time: 2.8s</div>
+                        <div><i class="fas fa-cogs"></i> Model: SDXL</div>
+                        <div><i class="fas fa-palette"></i> Style: ${style}</div>
+                    </div>
+                `;
+                
+                showNotification('Image generated successfully!', 'success');
+                
+                // Add to chat
+                addMessage(`Generated an image for you: "${prompt}"`, 'ai');
+                
+            } catch (error) {
+                console.error('Error generating image:', error);
+                
+                imagePreview.innerHTML = `
+                    <div style="text-align: center; color: #ef4444; padding: 4rem;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <p>Failed to generate image. Please try again later.</p>
+                    </div>
+                `;
+                
+                showNotification('Failed to generate image', 'error');
+            } finally {
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '<i class="fas fa-magic"></i> Generate Image (Premium)';
+            }
+        }
+        
+        function startVoiceInput() {
+            showNotification('Voice input coming soon...', 'info');
+            // In production, implement Web Speech API
+        }
+        
+        function generateTTS(text) {
+            showNotification('TTS coming soon...', 'info');
+            // In production, implement TTS API call
+        }
+        
+        function selectPlan(plan) {
+            if (!currentUser) {
+                showNotification('Please login to select a plan', 'warning');
+                openModal('authModal');
+                return;
+            }
+            
+            showNotification(`${plan} plan selected...`, 'info');
+            
+            const planDetails = {
+                'free': { name: 'Free', price: 0, color: 'gray' },
+                'premium': { name: 'Premium', price: 4.99, color: 'gold' },
+                'pro': { name: 'Pro', price: 9.99, color: 'diamond' },
+                'max': { name: 'Max', price: 19.99, color: 'platinum' }
+            };
+            
+            const details = planDetails[plan];
+            
+            const paymentContent = `
+                <div style="text-align: center; padding: 2rem; background: rgba(2, 6, 23, 0.5); border-radius: 15px;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--${details.color});">
+                        <i class="fas fa-${plan === 'premium' ? 'crown' : plan === 'pro' ? 'gem' : plan === 'max' ? 'infinity' : 'user'}"></i>
+                    </div>
+                    <h3 style="margin-bottom: 1rem; color: white;">${details.name} Plan</h3>
+                    <div style="font-size: 2.5rem; font-weight: bold; margin-bottom: 1rem; color: white;">
+                        $${details.price}<span style="font-size: 1rem; color: #94a3b8;">/month</span>
+                    </div>
+                    
+                    <div style="margin: 2rem 0;">
+                        <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem;">
+                            <div>
+                                <div style="font-size: 1.2rem; font-weight: bold; color: white;">Stripe</div>
+                                <div style="color: #94a3b8; font-size: 0.9rem;">Card/Debit</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 1.2rem; font-weight: bold; color: white;">PayPal</div>
+                                <div style="color: #94a3b8; font-size: 0.9rem;">International</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 1.2rem; font-weight: bold; color: white;">Razorpay</div>
+                                <div style="color: #94a3b8; font-size: 0.9rem;">India</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-${details.color}" style="width: 100%;" onclick="processPayment('${plan}')">
+                        <i class="fas fa-lock"></i>
+                        Secure Payment
+                    </button>
+                    
+                    <p style="color: #94a3b8; margin-top: 1.5rem; font-size: 0.9rem;">
+                        <i class="fas fa-shield-alt"></i> 100% Secure | 14-day Money Back Guarantee
+                    </p>
+                </div>
+            `;
+            
+            document.getElementById('paymentTitle').textContent = `${details.name} Plan - Payment`;
+            document.getElementById('paymentContent').innerHTML = paymentContent;
+            openModal('paymentModal');
+        }
+        
+        function processPayment(plan) {
+            showNotification('Processing payment... Demo mode', 'info');
+            setTimeout(() => {
+                showNotification('Payment successful! Premium activated', 'success');
+                userTier = plan;
+                updateUserTier(plan);
+                closeModal('paymentModal');
+                
+                // Update user data with new tier
+                if (currentUser) {
+                    currentUser.tier = plan;
+                    localStorage.setItem('zynqora_user', JSON.stringify(currentUser));
+                }
+            }, 2000);
+        }
+        
+        function updateUserTier(tier) {
+            userTier = tier;
+            
+            // Update UI based on tier
+            const badges = document.querySelectorAll('.badge-premium, .badge-pro, .badge-max');
+            badges.forEach(badge => {
+                badge.textContent = tier.toUpperCase();
+                badge.className = `badge badge-${tier}`;
+            });
+            
+            // Update dashboard
+            if (tier !== 'free') {
+                document.getElementById('todayQuestions').textContent = 'Unlimited';
+                document.querySelector('.progress').style.width = '100%';
+                
+                document.getElementById('imageCredits').textContent = tier === 'premium' ? '100/month' : 
+                                                                    tier === 'pro' ? '500/month' : 'Unlimited';
+                document.querySelectorAll('.progress-bar')[1].querySelector('.progress').style.width = '100%';
+                
+                document.getElementById('languagesUsed').textContent = tier === 'premium' ? '50+' : '180+';
+            }
+            
+            showNotification(`Upgraded to ${tier} tier!`, 'success');
+        }
+        
+        function upgradeToPremium() {
+            if (!currentUser) {
+                showNotification('Please login to upgrade', 'warning');
+                openModal('authModal');
+                return;
+            }
+            selectPlan('premium');
+        }
+        
+        function askAboutCreator() {
+            if (!currentUser) {
+                showNotification('Please login to use the AI chat', 'warning');
+                openModal('authModal');
+                return;
+            }
+            
+            chatInput.value = 'Who created you?';
+            sendMessage();
+        }
+        
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+        
+        async function checkServerStatus() {
+            try {
+                // Try to ping the server
+                const response = await fetch(`${SERVER_URL}/health`);
+                if (response.ok) {
+                    document.getElementById('serverStatus').textContent = 'Online';
+                    document.getElementById('serverStatus').style.color = 'var(--success)';
+                } else {
+                    throw new Error('Server not responding');
+                }
+            } catch (error) {
+                console.error('Server status check failed:', error);
+                document.getElementById('serverStatus').textContent = 'Offline';
+                document.getElementById('serverStatus').style.color = 'var(--danger)';
+                showNotification('Server connection issue. Running in demo mode.', 'warning');
+            }
+        }
+        
+        // Initialize
+        window.addEventListener('load', () => {
+            // Add a demo message about asking creator
+            setTimeout(() => {
+                addMessage('You can ask "Who created you?" in any language to learn about my creator!', 'ai');
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
+    
