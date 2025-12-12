@@ -1,0 +1,876 @@
+// Main Application
+class PromptGenerator {
+    constructor() {
+        this.presets = [];
+        this.savedPrompts = [];
+        this.currentPrompt = '';
+        this.currentTemplate = null;
+        
+        this.init();
+    }
+    
+    async init() {
+        // Load presets
+        await this.loadPresets();
+        
+        // Initialize UI
+        this.initializeUI();
+        
+        // Load saved prompts
+        this.loadSavedPrompts();
+        
+        // Set up PWA
+        this.setupPWA();
+        
+        // Set initial theme
+        this.setTheme(localStorage.getItem('theme') || 'light');
+    }
+    
+    async loadPresets() {
+        try {
+            // In a real app, this would fetch from presets.json
+            // For now, we'll use embedded presets
+            this.presets = await this.getEmbeddedPresets();
+            this.populateCategories();
+            this.populateTemplates();
+        } catch (error) {
+            console.error('Error loading presets:', error);
+            this.presets = this.getFallbackPresets();
+            this.populateCategories();
+            this.populateTemplates();
+        }
+    }
+    
+    getEmbeddedPresets() {
+        return Promise.resolve([
+            {
+                id: 'youtube-script',
+                name: 'YouTube Script',
+                category: 'content',
+                description: 'Generate engaging YouTube video scripts',
+                template: 'Write a YouTube video script about [topic] with a [style] style and [tone] tone. The script should be [length] and target [audience]. Include engaging hooks, main content, and call-to-action.',
+                tags: ['video', 'content', 'social']
+            },
+            {
+                id: 'blog-post',
+                name: 'SEO Blog Post',
+                category: 'blog',
+                description: 'Create SEO-optimized blog content',
+                template: 'Write a comprehensive blog post about [topic] with [style] style and [tone] tone. Target audience: [audience]. Length: [length]. Include SEO best practices, headings, and optimize for keywords: [keywords].',
+                tags: ['seo', 'content', 'blog']
+            },
+            {
+                id: 'midjourney',
+                name: 'Midjourney AI Art',
+                category: 'ai-image',
+                description: 'Generate detailed Midjourney prompts',
+                template: '[style] digital art of [topic], [tone] atmosphere, [keywords]. Detailed, intricate, professional, trending on artstation, 8k, unreal engine, octane render --ar 16:9 --v 5.2',
+                tags: ['ai', 'image', 'art']
+            },
+            {
+                id: 'facebook-ads',
+                name: 'Facebook Ads',
+                category: 'content',
+                description: 'Create converting Facebook ad copy',
+                template: 'Write a Facebook ad for [topic] with [style] style and [tone] tone. Target: [audience]. Include attention-grabbing headline, compelling body text, and strong call-to-action. Keywords: [keywords].',
+                tags: ['ads', 'marketing', 'social']
+            },
+            {
+                id: 'instagram-reels',
+                name: 'Instagram Reels',
+                category: 'content',
+                description: 'Generate viral Instagram Reels ideas',
+                template: 'Create [style] Instagram Reels content about [topic] with [tone] tone for [audience] audience. Include hook, trending audio suggestion, on-screen text ideas, and call-to-action.',
+                tags: ['reels', 'social', 'viral']
+            },
+            {
+                id: 'linkedin-post',
+                name: 'LinkedIn Post',
+                category: 'content',
+                description: 'Professional LinkedIn content',
+                template: 'Write a professional LinkedIn post about [topic] with [style] style and [tone] tone. Target: [audience]. Include value-driven content, insights, and engagement questions.',
+                tags: ['professional', 'business', 'social']
+            },
+            {
+                id: 'product-review',
+                name: 'Product Review',
+                category: 'blog',
+                description: 'Detailed product review content',
+                template: 'Write a detailed product review about [topic] with [style] style and [tone] tone. Target audience: [audience]. Include pros/cons, features, pricing analysis, and final verdict.',
+                tags: ['review', 'seo', 'affiliate']
+            },
+            {
+                id: 'business-idea',
+                name: 'Business Idea',
+                category: 'business',
+                description: 'Generate innovative business ideas',
+                template: 'Generate a [style] business idea in the [topic] industry with [tone] approach. Target market: [audience]. Include problem statement, solution, target audience, revenue model, and marketing strategy.',
+                tags: ['startup', 'business', 'innovation']
+            },
+            {
+                id: 'logo-design',
+                name: 'Logo Design Brief',
+                category: 'business',
+                description: 'Create logo design specifications',
+                template: 'Create a logo design brief for a [topic] brand with [style] style and [tone] tone. Target audience: [audience]. Include color palette suggestions, symbolism, typography preferences, and brand values.',
+                tags: ['design', 'branding', 'logo']
+            },
+            {
+                id: 'coding-helper',
+                name: 'Coding Assistant',
+                category: 'tech',
+                description: 'Get coding help and explanations',
+                template: 'Explain/Write code for [topic] with [style] style. Target experience level: [audience]. Include comments, best practices, and error handling. Keywords: [keywords].',
+                tags: ['coding', 'programming', 'tech']
+            },
+            {
+                id: 'stable-diffusion',
+                name: 'Stable Diffusion',
+                category: 'ai-image',
+                description: 'Generate Stable Diffusion prompts',
+                template: 'masterpiece, best quality, [style] [topic], [tone], [keywords], detailed, intricate, sharp focus, studio lighting, 8k --negative_prompt: blurry, ugly, bad anatomy',
+                tags: ['ai', 'image', 'stable-diffusion']
+            },
+            {
+                id: 'email-newsletter',
+                name: 'Email Newsletter',
+                category: 'business',
+                description: 'Create engaging email newsletters',
+                template: 'Write a [style] email newsletter about [topic] with [tone] tone for [audience] subscribers. Include subject line, preview text, body content, and call-to-action.',
+                tags: ['email', 'marketing', 'business']
+            },
+            {
+                id: 'tiktok-hook',
+                name: 'TikTok Hook Generator',
+                category: 'content',
+                description: 'Create viral TikTok hooks',
+                template: 'Generate [creativity] creative TikTok hooks about [topic] with [style] style and [tone] tone for [audience] audience. Make it attention-grabbing and viral-worthy.',
+                tags: ['tiktok', 'viral', 'social']
+            },
+            {
+                id: 'story-prompt',
+                name: 'Story Writing Prompt',
+                category: 'creative',
+                description: 'Generate creative writing prompts',
+                template: 'Create a [style] story prompt about [topic] with [tone] tone. Target audience: [audience]. Include characters, setting, conflict, and plot points. Length: [length].',
+                tags: ['writing', 'creative', 'story']
+            },
+            {
+                id: 'video-thumbnail',
+                name: 'Video Thumbnail Ideas',
+                category: 'content',
+                description: 'Generate YouTube thumbnail concepts',
+                template: 'Design concepts for a YouTube thumbnail about [topic] with [style] style and [tone] tone. Target audience: [audience]. Include composition, colors, text placement, and visual elements.',
+                tags: ['youtube', 'design', 'thumbnail']
+            }
+        ]);
+    }
+    
+    getFallbackPresets() {
+        return [
+            {
+                id: 'default',
+                name: 'General Prompt',
+                category: 'general',
+                description: 'General purpose prompt template',
+                template: 'Write about [topic] in a [style] style with [tone] tone for [audience] audience. Length: [length]. Keywords: [keywords].',
+                tags: ['general']
+            }
+        ];
+    }
+    
+    initializeUI() {
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            this.toggleTheme();
+        });
+        
+        // Generate button
+        document.getElementById('generateBtn').addEventListener('click', () => {
+            this.generatePrompt();
+        });
+        
+        // Quick templates button
+        document.getElementById('quickTemplatesBtn').addEventListener('click', () => {
+            this.showTemplatesModal();
+        });
+        
+        // Footer templates link
+        document.getElementById('showTemplatesFooter').addEventListener('click', (e) => {
+            e.preventDefault();
+            this.showTemplatesModal();
+        });
+        
+        // Close modal buttons
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            this.hideTemplatesModal();
+        });
+        
+        // Close share modal
+        document.getElementById('closeShareModalBtn').addEventListener('click', () => {
+            this.hideShareModal();
+        });
+        
+        // Copy button
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            this.copyToClipboard();
+        });
+        
+        // Download buttons
+        document.getElementById('downloadTxtBtn').addEventListener('click', () => {
+            this.downloadPrompt('txt');
+        });
+        
+        document.getElementById('downloadMdBtn').addEventListener('click', () => {
+            this.downloadPrompt('md');
+        });
+        
+        // Save prompt button
+        document.getElementById('savePromptBtn').addEventListener('click', () => {
+            this.savePrompt();
+        });
+        
+        // Share button
+        document.getElementById('shareBtn').addEventListener('click', () => {
+            this.showShareModal();
+        });
+        
+        // Copy link button
+        document.getElementById('copyLinkBtn').addEventListener('click', () => {
+            this.copyShareLink();
+        });
+        
+        // Share platform buttons
+        document.querySelectorAll('.share-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const platform = e.currentTarget.dataset.platform;
+                this.sharePrompt(platform);
+            });
+        });
+        
+        // Category change
+        document.getElementById('category').addEventListener('change', (e) => {
+            this.onCategoryChange(e.target.value);
+        });
+        
+        // Input changes (for live preview)
+        ['topic', 'style', 'tone', 'keywords', 'audience', 'length', 'creativity'].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('input', () => {
+                    this.updatePreview();
+                });
+                element.addEventListener('change', () => {
+                    this.updatePreview();
+                });
+            }
+        });
+        
+        // Close modals on outside click
+        window.addEventListener('click', (e) => {
+            const templatesModal = document.getElementById('templatesModal');
+            const shareModal = document.getElementById('shareModal');
+            
+            if (e.target === templatesModal) {
+                this.hideTemplatesModal();
+            }
+            
+            if (e.target === shareModal) {
+                this.hideShareModal();
+            }
+        });
+        
+        // Footer category links
+        document.querySelectorAll('[data-category]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const category = e.currentTarget.dataset.category;
+                this.selectCategory(category);
+            });
+        });
+        
+        // Saved prompts link
+        document.getElementById('savedPromptsLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            this.showSavedPrompts();
+        });
+        
+        // Export all button
+        document.getElementById('exportAllBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            this.exportAllPrompts();
+        });
+    }
+    
+    populateCategories() {
+        const categorySelect = document.getElementById('category');
+        const categories = [...new Set(this.presets.map(p => p.category))];
+        
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = this.capitalize(category) + ' Prompts';
+            categorySelect.appendChild(option);
+        });
+    }
+    
+    populateTemplates() {
+        const templatesGrid = document.getElementById('templatesGrid');
+        templatesGrid.innerHTML = '';
+        
+        this.presets.forEach(preset => {
+            const templateCard = document.createElement('div');
+            templateCard.className = 'template-card';
+            templateCard.dataset.id = preset.id;
+            
+            templateCard.innerHTML = `
+                <h4>${preset.name}</h4>
+                <p>${preset.description}</p>
+                <div class="template-tags">
+                    ${preset.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                </div>
+            `;
+            
+            templateCard.addEventListener('click', () => {
+                this.selectTemplate(preset.id);
+                this.hideTemplatesModal();
+            });
+            
+            templatesGrid.appendChild(templateCard);
+        });
+    }
+    
+    selectTemplate(templateId) {
+        const template = this.presets.find(p => p.id === templateId);
+        if (!template) return;
+        
+        this.currentTemplate = template;
+        
+        // Set category
+        const categorySelect = document.getElementById('category');
+        categorySelect.value = template.category;
+        
+        // Update preview
+        this.updatePreview();
+        
+        // Show notification
+        this.showNotification(`Template "${template.name}" selected`);
+    }
+    
+    selectCategory(category) {
+        const categorySelect = document.getElementById('category');
+        categorySelect.value = category;
+        this.onCategoryChange(category);
+        this.showNotification(`${this.capitalize(category)} category selected`);
+    }
+    
+    onCategoryChange(category) {
+        // Filter templates by category
+        const filteredTemplates = this.presets.filter(p => p.category === category);
+        
+        if (filteredTemplates.length > 0 && !this.currentTemplate) {
+            this.selectTemplate(filteredTemplates[0].id);
+        }
+    }
+    
+    generatePrompt() {
+        const topic = document.getElementById('topic').value.trim();
+        if (!topic) {
+            this.showNotification('Please enter a topic', 'warning');
+            document.getElementById('topic').focus();
+            return;
+        }
+        
+        const style = document.getElementById('style').value;
+        const tone = document.getElementById('tone').value;
+        const keywords = document.getElementById('keywords').value;
+        const audience = document.getElementById('audience').value;
+        const length = document.getElementById('length').value;
+        const creativity = document.getElementById('creativity').value;
+        const language = document.getElementById('language').value;
+        
+        // Get template
+        let template = this.currentTemplate ? this.currentTemplate.template : 
+            'Write about [topic] in a [style] style with [tone] tone for [audience] audience. Length: [length]. Keywords: [keywords].';
+        
+        // Apply AI smart rules
+        template = this.applySmartRules(template, style, tone, audience, creativity);
+        
+        // Replace placeholders
+        let prompt = template
+            .replace(/\[topic\]/g, topic)
+            .replace(/\[style\]/g, style)
+            .replace(/\[tone\]/g, tone)
+            .replace(/\[keywords\]/g, keywords)
+            .replace(/\[audience\]/g, audience)
+            .replace(/\[length\]/g, length)
+            .replace(/\[creativity\]/g, creativity);
+        
+        // Add human proof instruction
+        prompt += '\n\nMake it unique, engaging, structured, and original.';
+        
+        // Apply language specific adjustments
+        prompt = this.applyLanguageAdjustments(prompt, language);
+        
+        // Set output
+        this.currentPrompt = prompt;
+        this.displayPrompt(prompt);
+        
+        // Update stats
+        this.updateStats(prompt);
+        
+        // Show notification
+        this.showNotification('Prompt generated successfully!');
+    }
+    
+    applySmartRules(template, style, tone, audience, creativity) {
+        let adjustedTemplate = template;
+        
+        // Style-based adjustments
+        if (style === 'funny') {
+            adjustedTemplate += ' Include humor, jokes, and light-hearted elements.';
+        } else if (style === 'academic') {
+            adjustedTemplate += ' Use formal language, citations, and academic tone.';
+        } else if (style === 'storytelling') {
+            adjustedTemplate += ' Create a narrative with characters, setting, and plot.';
+        }
+        
+        // Tone-based adjustments
+        if (tone === 'serious') {
+            adjustedTemplate = adjustedTemplate.replace(/emoji|emojis/g, '');
+            adjustedTemplate += ' Maintain professional and serious tone throughout.';
+        } else if (tone === 'enthusiastic') {
+            adjustedTemplate += ' Use exciting language and exclamation points appropriately.';
+        } else if (tone === 'motivational') {
+            adjustedTemplate += ' Include inspiring quotes and motivational language.';
+        }
+        
+        // Audience-based adjustments
+        if (audience === 'kids') {
+            adjustedTemplate += ' Use simple vocabulary, short sentences, and age-appropriate concepts.';
+        } else if (audience === 'teens') {
+            adjustedTemplate += ' Use current slang, relate to youth culture, and keep it engaging.';
+        } else if (audience === 'experts') {
+            adjustedTemplate += ' Use technical terminology and assume advanced knowledge.';
+        }
+        
+        // Creativity-based adjustments
+        const creativityLevel = parseInt(creativity);
+        if (creativityLevel >= 8) {
+            adjustedTemplate += ' Be highly creative, innovative, and outside-the-box.';
+        } else if (creativityLevel <= 3) {
+            adjustedTemplate += ' Stick to facts, be straightforward, and avoid embellishment.';
+        }
+        
+        return adjustedTemplate;
+    }
+    
+    applyLanguageAdjustments(prompt, language) {
+        if (language === 'bn') {
+            return prompt + '\n\nPlease write in Bangla (বাংলা) language.';
+        } else if (language === 'hi') {
+            return prompt + '\n\nPlease write in Hindi (हिन्दी) language.';
+        }
+        return prompt;
+    }
+    
+    displayPrompt(prompt) {
+        const outputDiv = document.getElementById('output');
+        outputDiv.innerHTML = '';
+        
+        const lines = prompt.split('\n');
+        lines.forEach(line => {
+            const p = document.createElement('p');
+            if (line.trim() === '') {
+                p.innerHTML = '<br>';
+            } else {
+                p.textContent = line;
+            }
+            outputDiv.appendChild(p);
+        });
+        
+        // Scroll to output
+        outputDiv.parentElement.scrollTop = 0;
+    }
+    
+    updatePreview() {
+        // Optional: Add live preview feature
+        // For now, we'll just update the generate button state
+        const topic = document.getElementById('topic').value.trim();
+        const generateBtn = document.getElementById('generateBtn');
+        
+        if (topic) {
+            generateBtn.disabled = false;
+        } else {
+            generateBtn.disabled = true;
+        }
+    }
+    
+    updateStats(prompt) {
+        const words = prompt.split(/\s+/).filter(word => word.length > 0).length;
+        const chars = prompt.length;
+        
+        document.getElementById('wordCount').textContent = `Words: ${words}`;
+        document.getElementById('charCount').textContent = `Characters: ${chars}`;
+    }
+    
+    async copyToClipboard() {
+        if (!this.currentPrompt) {
+            this.showNotification('No prompt to copy', 'warning');
+            return;
+        }
+        
+        try {
+            await navigator.clipboard.writeText(this.currentPrompt);
+            this.showNotification('Prompt copied to clipboard!');
+            
+            // Visual feedback
+            const copyBtn = document.getElementById('copyBtn');
+            const originalHTML = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z"/></svg>';
+            copyBtn.style.color = 'var(--success)';
+            
+            setTimeout(() => {
+                copyBtn.innerHTML = originalHTML;
+                copyBtn.style.color = '';
+            }, 2000);
+        } catch (err) {
+            console.error('Failed to copy:', err);
+            this.showNotification('Failed to copy prompt', 'error');
+        }
+    }
+    
+    downloadPrompt(format) {
+        if (!this.currentPrompt) {
+            this.showNotification('No prompt to download', 'warning');
+            return;
+        }
+        
+        let content = this.currentPrompt;
+        let filename = 'ai-prompt';
+        
+        if (format === 'md') {
+            const templateName = this.currentTemplate ? this.currentTemplate.name : 'Custom Prompt';
+            const date = new Date().toISOString().split('T')[0];
+            content = `# AI Prompt\n\n**Template:** ${templateName}\n**Date:** ${date}\n\n## Prompt\n\n${content}`;
+            filename += '.md';
+        } else {
+            filename += '.txt';
+        }
+        
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        this.showNotification(`Prompt downloaded as ${format.toUpperCase()}!`);
+    }
+    
+    savePrompt() {
+        if (!this.currentPrompt) {
+            this.showNotification('No prompt to save', 'warning');
+            return;
+        }
+        
+        const promptData = {
+            id: Date.now(),
+            prompt: this.currentPrompt,
+            template: this.currentTemplate ? this.currentTemplate.name : 'Custom',
+            topic: document.getElementById('topic').value,
+            date: new Date().toISOString(),
+            preview: this.currentPrompt.substring(0, 100) + '...'
+        };
+        
+        this.savedPrompts.unshift(promptData);
+        
+        // Keep only last 10 prompts
+        if (this.savedPrompts.length > 10) {
+            this.savedPrompts = this.savedPrompts.slice(0, 10);
+        }
+        
+        // Save to localStorage
+        localStorage.setItem('savedPrompts', JSON.stringify(this.savedPrompts));
+        
+        // Update UI
+        this.updateSavedPromptsUI();
+        
+        this.showNotification('Prompt saved!');
+    }
+    
+    loadSavedPrompts() {
+        const saved = localStorage.getItem('savedPrompts');
+        if (saved) {
+            try {
+                this.savedPrompts = JSON.parse(saved);
+                this.updateSavedPromptsUI();
+            } catch (e) {
+                console.error('Error loading saved prompts:', e);
+                this.savedPrompts = [];
+            }
+        }
+    }
+    
+    updateSavedPromptsUI() {
+        const container = document.getElementById('savedPromptsContainer');
+        const list = document.getElementById('savedPromptsList');
+        
+        if (this.savedPrompts.length === 0) {
+            container.style.display = 'none';
+            return;
+        }
+        
+        container.style.display = 'block';
+        list.innerHTML = '';
+        
+        this.savedPrompts.forEach(prompt => {
+            const item = document.createElement('div');
+            item.className = 'saved-prompt-item';
+            item.innerHTML = `
+                <h4>${prompt.template}: ${prompt.topic}</h4>
+                <p>${prompt.preview}</p>
+                <div class="saved-prompt-meta">
+                    <span>${new Date(prompt.date).toLocaleDateString()}</span>
+                    <span>${prompt.prompt.length} chars</span>
+                </div>
+            `;
+            
+            item.addEventListener('click', () => {
+                this.loadSavedPrompt(prompt.id);
+            });
+            
+            list.appendChild(item);
+        });
+    }
+    
+    loadSavedPrompt(id) {
+        const prompt = this.savedPrompts.find(p => p.id === id);
+        if (!prompt) return;
+        
+        this.currentPrompt = prompt.prompt;
+        this.displayPrompt(prompt.prompt);
+        this.updateStats(prompt.prompt);
+        
+        // Scroll to output
+        document.querySelector('.output-section').scrollIntoView({ behavior: 'smooth' });
+        
+        this.showNotification('Prompt loaded from saved');
+    }
+    
+    showSavedPrompts() {
+        const container = document.getElementById('savedPromptsContainer');
+        if (container.style.display === 'none') {
+            container.style.display = 'block';
+            this.showNotification('Showing saved prompts');
+        } else {
+            container.style.display = 'none';
+        }
+    }
+    
+    exportAllPrompts() {
+        if (this.savedPrompts.length === 0) {
+            this.showNotification('No saved prompts to export', 'warning');
+            return;
+        }
+        
+        let exportContent = '# AI Prompt Generator - Saved Prompts\n\n';
+        
+        this.savedPrompts.forEach((prompt, index) => {
+            exportContent += `## ${index + 1}. ${prompt.template}: ${prompt.topic}\n`;
+            exportContent += `**Date:** ${new Date(prompt.date).toLocaleString()}\n\n`;
+            exportContent += `${prompt.prompt}\n\n---\n\n`;
+        });
+        
+        const blob = new Blob([exportContent], { type: 'text/markdown' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `ai-prompts-${new Date().toISOString().split('T')[0]}.md`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        this.showNotification(`Exported ${this.savedPrompts.length} prompts`);
+    }
+    
+    showTemplatesModal() {
+        document.getElementById('templatesModal').classList.add('active');
+    }
+    
+    hideTemplatesModal() {
+        document.getElementById('templatesModal').classList.remove('active');
+    }
+    
+    showShareModal() {
+        if (!this.currentPrompt) {
+            this.showNotification('Generate a prompt first', 'warning');
+            return;
+        }
+        
+        document.getElementById('shareModal').classList.add('active');
+    }
+    
+    hideShareModal() {
+        document.getElementById('shareModal').classList.remove('active');
+    }
+    
+    sharePrompt(platform) {
+        const text = encodeURIComponent(`Check out this AI prompt I generated:\n\n${this.currentPrompt.substring(0, 200)}...\n\nGenerate your own at Prompt Generator Pro`);
+        const url = encodeURIComponent(window.location.href);
+        
+        let shareUrl = '';
+        
+        switch (platform) {
+            case 'facebook':
+                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`;
+                break;
+            case 'twitter':
+                shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+                break;
+            case 'whatsapp':
+                shareUrl = `https://wa.me/?text=${text}%20${url}`;
+                break;
+            case 'copy':
+                this.copyShareLink();
+                return;
+        }
+        
+        if (shareUrl) {
+            window.open(shareUrl, '_blank', 'width=600,height=400');
+            this.showNotification(`Sharing via ${platform}`);
+        }
+    }
+    
+    copyShareLink() {
+        const linkInput = document.getElementById('shareLinkInput');
+        linkInput.value = window.location.href;
+        linkInput.select();
+        linkInput.setSelectionRange(0, 99999);
+        
+        try {
+            navigator.clipboard.writeText(linkInput.value);
+            this.showNotification('Link copied to clipboard!');
+        } catch (err) {
+            // Fallback for older browsers
+            document.execCommand('copy');
+            this.showNotification('Link copied!');
+        }
+    }
+    
+    setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.innerHTML = theme === 'dark' ? 
+            '<svg class="icon" viewBox="0 0 24 24"><path d="M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg>' :
+            '<svg class="icon" viewBox="0 0 24 24"><path d="M12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18M20,15.31L23.31,12L20,8.69V4H15.31L12,0.69L8.69,4H4V8.69L0.69,12L4,15.31V20H8.69L12,23.31L15.31,20H20V15.31Z"/></svg>';
+    }
+    
+    toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        this.setTheme(newTheme);
+    }
+    
+    setupPWA() {
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            const installBtn = document.getElementById('installBtn');
+            installBtn.style.display = 'flex';
+            
+            installBtn.addEventListener('click', async () => {
+                if (!deferredPrompt) return;
+                
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                
+                if (outcome === 'accepted') {
+                    this.showNotification('App installed successfully!');
+                }
+                
+                deferredPrompt = null;
+                installBtn.style.display = 'none';
+            });
+        });
+    }
+    
+    showNotification(message, type = 'success') {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+            <svg class="icon" viewBox="0 0 24 24">
+                ${type === 'success' ? '<path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z"/>' :
+                  type === 'warning' ? '<path d="M13,14H11V10H13M13,18H11V16H13M1,21H23L12,2L1,21Z"/>' :
+                  '<path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>'}
+            </svg>
+            <span>${message}</span>
+        `;
+        
+        // Add styles
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${type === 'success' ? 'var(--success)' : type === 'warning' ? 'var(--warning)' : 'var(--danger)'};
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Animate in
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+        }, 10);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.style.transform = 'translateX(150%)';
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+    
+    capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+}
+
+// Initialize the application when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    const app = new PromptGenerator();
+    window.promptGenerator = app; // Make available globally for debugging
+});
+
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(registration => {
+                console.log('ServiceWorker registered successfully:', registration.scope);
+            })
+            .catch(error => {
+                console.log('ServiceWorker registration failed:', error);
+            });
+    });
+}

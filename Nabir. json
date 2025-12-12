@@ -1,0 +1,164 @@
+{
+  "presets": [
+    {
+      "id": "youtube-script",
+      "name": "YouTube Script",
+      "category": "content",
+      "description": "Generate engaging YouTube video scripts",
+      "template": "Write a YouTube video script about [topic] with a [style] style and [tone] tone. The script should be [length] and target [audience]. Include engaging hooks, main content, and call-to-action.",
+      "tags": ["video", "content", "social"]
+    },
+    {
+      "id": "blog-post",
+      "name": "SEO Blog Post",
+      "category": "blog",
+      "description": "Create SEO-optimized blog content",
+      "template": "Write a comprehensive blog post about [topic] with [style] style and [tone] tone. Target audience: [audience]. Length: [length]. Include SEO best practices, headings, and optimize for keywords: [keywords].",
+      "tags": ["seo", "content", "blog"]
+    },
+    {
+      "id": "midjourney",
+      "name": "Midjourney AI Art",
+      "category": "ai-image",
+      "description": "Generate detailed Midjourney prompts",
+      "template": "[style] digital art of [topic], [tone] atmosphere, [keywords]. Detailed, intricate, professional, trending on artstation, 8k, unreal engine, octane render --ar 16:9 --v 5.2",
+      "tags": ["ai", "image", "art"]
+    },
+    {
+      "id": "facebook-ads",
+      "name": "Facebook Ads",
+      "category": "content",
+      "description": "Create converting Facebook ad copy",
+      "template": "Write a Facebook ad for [topic] with [style] style and [tone] tone. Target: [audience]. Include attention-grabbing headline, compelling body text, and strong call-to-action. Keywords: [keywords].",
+      "tags": ["ads", "marketing", "social"]
+    },
+    {
+      "id": "instagram-reels",
+      "name": "Instagram Reels",
+      "category": "content",
+      "description": "Generate viral Instagram Reels ideas",
+      "template": "Create [style] Instagram Reels content about [topic] with [tone] tone for [audience] audience. Include hook, trending audio suggestion, on-screen text ideas, and call-to-action.",
+      "tags": ["reels", "social", "viral"]
+    },
+    {
+      "id": "linkedin-post",
+      "name": "LinkedIn Post",
+      "category": "content",
+      "description": "Professional LinkedIn content",
+      "template": "Write a professional LinkedIn post about [topic] with [style] style and [tone] tone. Target: [audience]. Include value-driven content, insights, and engagement questions.",
+      "tags": ["professional", "business", "social"]
+    },
+    {
+      "id": "product-review",
+      "name": "Product Review",
+      "category": "blog",
+      "description": "Detailed product review content",
+      "template": "Write a detailed product review about [topic] with [style] style and [tone] tone. Target audience: [audience]. Include pros/cons, features, pricing analysis, and final verdict.",
+      "tags": ["review", "seo", "affiliate"]
+    },
+    {
+      "id": "business-idea",
+      "name": "Business Idea",
+      "category": "business",
+      "description": "Generate innovative business ideas",
+      "template": "Generate a [style] business idea in the [topic] industry with [tone] approach. Target market: [audience]. Include problem statement, solution, target audience, revenue model, and marketing strategy.",
+      "tags": ["startup", "business", "innovation"]
+    },
+    {
+      "id": "logo-design",
+      "name": "Logo Design Brief",
+      "category": "business",
+      "description": "Create logo design specifications",
+      "template": "Create a logo design brief for a [topic] brand with [style] style and [tone] tone. Target audience: [audience]. Include color palette suggestions, symbolism, typography preferences, and brand values.",
+      "tags": ["design", "branding", "logo"]
+    },
+    {
+      "id": "coding-helper",
+      "name": "Coding Assistant",
+      "category": "tech",
+      "description": "Get coding help and explanations",
+      "template": "Explain/Write code for [topic] with [style] style. Target experience level: [audience]. Include comments, best practices, and error handling. Keywords: [keywords].",
+      "tags": ["coding", "programming", "tech"]
+    },
+    {
+      "id": "stable-diffusion",
+      "name": "Stable Diffusion",
+      "category": "ai-image",
+      "description": "Generate Stable Diffusion prompts",
+      "template": "masterpiece, best quality, [style] [topic], [tone], [keywords], detailed, intricate, sharp focus, studio lighting, 8k --negative_prompt: blurry, ugly, bad anatomy",
+      "tags": ["ai", "image", "stable-diffusion"]
+    },
+    {
+      "id": "email-newsletter",
+      "name": "Email Newsletter",
+      "category": "business",
+      "description": "Create engaging email newsletters",
+      "template": "Write a [style] email newsletter about [topic] with [tone] tone for [audience] subscribers. Include subject line, preview text, body content, and call-to-action.",
+      "tags": ["email", "marketing", "business"]
+    },
+    {
+      "id": "tiktok-hook",
+      "name": "TikTok Hook Generator",
+      "category": "content",
+      "description": "Create viral TikTok hooks",
+      "template": "Generate [creativity] creative TikTok hooks about [topic] with [style] style and [tone] tone for [audience] audience. Make it attention-grabbing and viral-worthy.",
+      "tags": ["tiktok", "viral", "social"]
+    },
+    {
+      "id": "story-prompt",
+      "name": "Story Writing Prompt",
+      "category": "creative",
+      "description": "Generate creative writing prompts",
+      "template": "Create a [style] story prompt about [topic] with [tone] tone. Target audience: [audience]. Include characters, setting, conflict, and plot points. Length: [length].",
+      "tags": ["writing", "creative", "story"]
+    },
+    {
+      "id": "video-thumbnail",
+      "name": "Video Thumbnail Ideas",
+      "category": "content",
+      "description": "Generate YouTube thumbnail concepts",
+      "template": "Design concepts for a YouTube thumbnail about [topic] with [style] style and [tone] tone. Target audience: [audience]. Include composition, colors, text placement, and visual elements.",
+      "tags": ["youtube", "design", "thumbnail"]
+    },
+    {
+      "id": "seo-keywords",
+      "name": "SEO Keyword Research",
+      "category": "blog",
+      "description": "Generate SEO keyword ideas",
+      "template": "Generate [creativity] SEO keyword ideas for [topic] with [style] approach. Target audience: [audience]. Include primary keywords, long-tail variations, and search intent analysis.",
+      "tags": ["seo", "keywords", "research"]
+    },
+    {
+      "id": "podcast-script",
+      "name": "Podcast Episode Script",
+      "category": "content",
+      "description": "Create podcast episode scripts",
+      "template": "Write a podcast episode script about [topic] with [style] style and [tone] tone. Target audience: [audience]. Include introduction, segments, guest questions, and conclusion. Length: [length].",
+      "tags": ["podcast", "audio", "content"]
+    },
+    {
+      "id": "course-outline",
+      "name": "Online Course Outline",
+      "category": "education",
+      "description": "Generate online course structures",
+      "template": "Create an online course outline about [topic] with [style] teaching style and [tone] tone. Target students: [audience]. Include course objectives, module structure, assignments, and assessments.",
+      "tags": ["education", "course", "learning"]
+    },
+    {
+      "id": "book-outline",
+      "name": "Book Chapter Outline",
+      "category": "creative",
+      "description": "Generate book chapter structures",
+      "template": "Create a book chapter outline about [topic] with [style] writing style and [tone] tone. Target readers: [audience]. Include chapter titles, key points, character development, and plot progression.",
+      "tags": ["writing", "book", "outline"]
+    },
+    {
+      "id": "presentation",
+      "name": "Presentation Slides",
+      "category": "business",
+      "description": "Create presentation content",
+      "template": "Design a presentation about [topic] with [style] style and [tone] tone. Target audience: [audience]. Include slide structure, key messages, visual ideas, and speaking notes.",
+      "tags": ["presentation", "business", "slides"]
+    }
+  ]
+}
